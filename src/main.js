@@ -9,13 +9,13 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// 2. Navbar State
-const navbar = document.getElementById('navbar');
+// 2. Navbar State (Glass Pill)
+const navPill = document.getElementById('nav-pill');
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
+    if (window.scrollY > 50) {
+        navPill.classList.add('scrolled');
     } else {
-        navbar.classList.remove('scrolled');
+        navPill.classList.remove('scrolled');
     }
 });
 
@@ -47,7 +47,7 @@ revealElements.forEach(el => {
 window.addEventListener('scroll', revealOnScroll);
 revealOnScroll(); // Initial call
 
-// 4. Custom Dynamic Scrollbar (Refined from previous version)
+// 4. Custom Dynamic Scrollbar (Green & Interactive)
 const scrollThumb = document.querySelector(".scroll-thumb");
 let scrollTimeout;
 
@@ -56,7 +56,8 @@ const updateScrollbar = () => {
     const clientHeight = document.documentElement.clientHeight;
     const scrollTop = window.scrollY;
     
-    const thumbHeight = Math.max((clientHeight / scrollHeight) * clientHeight, 50);
+    // Calculate size and position
+    const thumbHeight = Math.max((clientHeight / scrollHeight) * clientHeight, 60);
     scrollThumb.style.height = `${thumbHeight}px`;
     
     const maxScroll = scrollHeight - clientHeight;
@@ -64,12 +65,13 @@ const updateScrollbar = () => {
     const thumbTop = scrollPercent * (clientHeight - thumbHeight);
     scrollThumb.style.top = `${thumbTop}px`;
     
-    scrollThumb.classList.add("scrolling");
+    // Scale on scroll
+    scrollThumb.classList.add("active");
     
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
-        scrollThumb.classList.remove("scrolling");
-    }, 1000);
+        scrollThumb.classList.remove("active");
+    }, 500);
 };
 
 window.addEventListener("scroll", updateScrollbar);

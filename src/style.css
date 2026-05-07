@@ -104,6 +104,17 @@ nav {
     transition: var(--smooth);
 }
 
+.nav-links-container {
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    transition: var(--smooth);
+}
+
+.nav-links-container.scrolled {
+    background: var(--cream);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
 nav.scrolled {
     padding: 1rem 5%;
     background: rgba(252, 250, 242, 0.9);
@@ -268,23 +279,29 @@ nav.scrolled {
     top: 0;
     left: 0;
     width: 100%;
-    height: 120%; /* For parallax */
-    background: url('/bg-hero.png') no-repeat center center;
+    height: 120%;
     background-size: cover;
-    z-index: -1;
+    background-position: center;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
 }
 
 .hero-card {
-    padding: 5rem;
+    padding: 4rem 6rem;
     text-align: center;
-    border-radius: 2rem;
     max-width: 800px;
 }
 
 .hero-card h1 {
-    font-size: 5rem;
-    margin-bottom: 1.5rem;
+    font-size: 6rem;
+    margin: 1rem 0;
     color: var(--text-dark);
+    text-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .hero-card p {
@@ -470,4 +487,35 @@ nav.scrolled {
 /* Parallax Utility */
 .parallax {
     transition: transform 0.1s ease-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-track {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 6px;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.scroll-thumb {
+    width: 100%;
+    background: var(--emerald);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 0;
+    transition: width 0.3s ease, background 0.3s ease;
+}
+
+.scroll-thumb.active {
+    width: 12px;
+    background: var(--emerald-light);
 }

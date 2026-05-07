@@ -23,12 +23,14 @@
         <a href="#home" class="nav-logo">
             <img src="/logo.svg" alt="Gelateria Melodia Logo" style="height: 60px; width: auto;">
         </a>
-        <ul class="nav-links">
-            <li><a href="#menu">Speisekarte</a></li>
-            <li><a href="#flavors">Sorten</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#journal">Journal</a></li>
-        </ul>
+        <div id="nav-pill" class="nav-links-container glass">
+            <ul class="nav-links">
+                <li><a href="#menu">Speisekarte</a></li>
+                <li><a href="#flavors">Sorten</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#journal">Journal</a></li>
+            </ul>
+        </div>
         <div class="nav-cta">
             <!-- Mobile Menu Toggle could go here -->
         </div>
@@ -37,7 +39,7 @@
     <!-- Hero -->
     <header id="home" class="hero">
         <div class="hero-bg parallax" style="background-image: url('/melodia_melting_gelato_bg_1778174056458.png')"></div>
-        <div class="hero-card glass reveal">
+        <div class="hero-card reveal">
             <div class="italian-badge">
                 <span class="flag"></span>
                 Tradizione Italiana
@@ -47,6 +49,11 @@
             <a href="#flavors" class="nav-logo logo-font" style="font-size: 1.5rem; color: var(--text-dark); opacity: 0.8;">Entdecken</a>
         </div>
     </header>
+
+    <!-- Custom Scrollbar -->
+    <div class="scroll-track">
+        <div class="scroll-thumb"></div>
+    </div>
 
     <!-- Daily Flavors Ticker -->
     <div id="flavors" class="ticker-wrapper">
