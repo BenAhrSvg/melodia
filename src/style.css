@@ -292,6 +292,8 @@ nav.scrolled {
 }
 
 .hero-card {
+    position: relative;
+    z-index: 2;
     padding: 4rem 6rem;
     text-align: center;
     max-width: 800px;
