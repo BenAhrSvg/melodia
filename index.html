@@ -14,31 +14,55 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <link rel="stylesheet" href="/src/style.css">
+    <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
     <div class="italian-line"></div>
     <!-- Navigation -->
     <nav id="navbar">
         <a href="#home" class="nav-logo">
-            <img src="/logo.svg" alt="Gelateria Melodi Logo" style="height: 60px; width: auto;">
+            <img src="./public/logo.svg" alt="Gelateria Melodi Logo" class="nav-logo-img" style="height: 56px; width: auto;">
         </a>
         <div id="nav-pill" class="nav-links-container glass">
             <ul class="nav-links">
-                <li><a href="#menu">Speisekarte</a></li>
                 <li><a href="#flavors">Sorten</a></li>
                 <li><a href="#events">Events</a></li>
                 <li><a href="#journal">Journal</a></li>
             </ul>
         </div>
-        <div class="nav-cta">
-            <!-- Mobile Menu Toggle could go here -->
-        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <div class="mobile-menu-top">
+            <span class="logo-font mobile-menu-logo">Melodia</span>
+            <button class="mobile-menu-close" id="mobile-close" aria-label="Menü schließen">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#flavors" class="mobile-nav-link">Sorten <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#events" class="mobile-nav-link">Events <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#journal" class="mobile-nav-link">Journal <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#visit" class="mobile-nav-link">Besuchen <i class="fas fa-arrow-right"></i></a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            Neusser Str. 16 · 50733 Köln<br>
+            Täglich 10:00 – 21:00 Uhr
+        </div>
+    </div>
+
 
     <!-- Hero -->
     <header id="home" class="hero">
-        <div class="hero-bg parallax" style="background-image: url('/hero_ice_splash_cone_1778233273066.png');"></div>
+        <video class="hero-video" autoplay muted loop playsinline poster="https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=1600">
+            <source src="https://videos.pexels.com/video-files/9058614/9058614-hd_1920_1080_25fps.mp4" type="video/mp4">
+        </video>
         <div class="hero-overlay"></div>
         <div class="hero-card reveal">
             <div class="italian-badge">
@@ -47,7 +71,7 @@
             </div>
             <p>Handmade in Cologne</p>
             <h1>Echte Eiskunst</h1>
-            <a href="#flavors" class="nav-logo logo-font" style="font-size: 1.5rem; color: var(--text-dark); opacity: 0.8;">Entdecken</a>
+            <a href="#flavors" class="hero-cta logo-font">Entdecken</a>
         </div>
     </header>
 
@@ -55,6 +79,18 @@
     <div class="scroll-track">
         <div class="scroll-thumb"></div>
     </div>
+
+    <!-- Manifesto -->
+    <section class="manifesto-section">
+        <div class="manifesto-inner reveal">
+            <span class="manifesto-script">fatto a mano</span>
+            <p class="manifesto-text">Seit dem ersten Löffel wissen wir — echtes Gelato braucht Zeit, die richtigen Zutaten und Menschen, denen Qualität keine Kompromisse bedeutet.</p>
+            <div class="manifesto-detail">
+                <span></span>
+                <span>Handgemacht · Köln · Seit 2024</span>
+            </div>
+        </div>
+    </section>
 
     <!-- Daily Flavors Ticker -->
     <div id="flavors" class="ticker-wrapper">
@@ -65,6 +101,15 @@
             <span class="ticker-item">Fragola di Bosco</span>
             <span class="ticker-item">Mango Alphonso</span>
             <span class="ticker-item">Nocciola Piemonte</span>
+            <span class="ticker-item">Limone Sicilia</span>
+            <span class="ticker-item">Caramello Salato</span>
+            <span class="ticker-item">Tiramisù Classico</span>
+            <span class="ticker-item">Lampone Selvatico</span>
+            <span class="ticker-item">Stracciatella</span>
+            <span class="ticker-item">Cocco Tropicale</span>
+            <span class="ticker-item">Amarena Roma</span>
+            <span class="ticker-item">Bacio di Dama</span>
+            <span class="ticker-item">Cannella Speziata</span>
             <!-- Repeat for seamless scroll -->
             <span class="ticker-item">Pistacchio Puro</span>
             <span class="ticker-item">Vanille Madagascar</span>
@@ -72,6 +117,15 @@
             <span class="ticker-item">Fragola di Bosco</span>
             <span class="ticker-item">Mango Alphonso</span>
             <span class="ticker-item">Nocciola Piemonte</span>
+            <span class="ticker-item">Limone Sicilia</span>
+            <span class="ticker-item">Caramello Salato</span>
+            <span class="ticker-item">Tiramisù Classico</span>
+            <span class="ticker-item">Lampone Selvatico</span>
+            <span class="ticker-item">Stracciatella</span>
+            <span class="ticker-item">Cocco Tropicale</span>
+            <span class="ticker-item">Amarena Roma</span>
+            <span class="ticker-item">Bacio di Dama</span>
+            <span class="ticker-item">Cannella Speziata</span>
         </div>
     </div>
 
@@ -79,15 +133,16 @@
     <section id="menu" class="section">
         <div class="container">
             <div class="section-header reveal">
+                <span class="section-eyebrow">il menu</span>
                 <h2>Unsere Eiskarte</h2>
                 <div class="line"></div>
-                <p style="margin-top: 1rem; color: var(--text-light);">Traditionelles Handwerk, moderne Kreationen.</p>
             </div>
             
             <div class="menu-tabs reveal">
                 <button class="tab-btn active" data-tab="becher">Eisbecher</button>
                 <button class="tab-btn" data-tab="spezial">Spezialitäten</button>
                 <button class="tab-btn" data-tab="waffeln">Waffeln & Joghurt</button>
+                <button class="tab-btn" data-tab="getraenke">Shakes & Getränke</button>
             </div>
 
             <div class="menu-container reveal">
@@ -95,7 +150,7 @@
                 <div class="menu-grid active" id="becher">
                     <div class="menu-item large">
                         <div class="menu-img">
-                            <img src="/strawberry_sundae_thumbnail_1778174973418.png" alt="Erdbeer-Becher">
+                            <img src="./public/strawberry_sundae_thumbnail_1778174973418.png" alt="Erdbeer-Becher" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Erdbeer-Becher</h3>
@@ -105,7 +160,7 @@
                     </div>
                     <div class="menu-item tall">
                         <div class="menu-img">
-                            <img src="/pistachio.png" alt="Pistazien-Becher">
+                            <img src="./public/pistachio.png" alt="Pistazien-Becher" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Pistazien-Becher</h3>
@@ -115,7 +170,7 @@
                     </div>
                     <div class="menu-item wide">
                         <div class="menu-img">
-                            <img src="/tiramisu.png" alt="Rocher-Traum">
+                            <img src="./public/tiramisu.png" alt="Rocher-Traum" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Rocher-Traum</h3>
@@ -125,7 +180,7 @@
                     </div>
                     <div class="menu-item">
                         <div class="menu-img">
-                            <img src="/gelato_sage.png" alt="Amarena-Kirsch">
+                            <img src="./public/gelato_sage.png" alt="Amarena-Kirsch" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Amarena-Traum</h3>
@@ -135,7 +190,7 @@
                     </div>
                     <div class="menu-item">
                         <div class="menu-img">
-                            <img src="/melodia_melting_gelato_bg_1778174056458.png" alt="Bananen-Split">
+                            <img src="./public/melodia_melting_gelato_bg_1778174056458.png" alt="Bananen-Split" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Bananen-Split</h3>
@@ -149,7 +204,7 @@
                 <div class="menu-grid" id="spezial">
                     <div class="menu-item large">
                         <div class="menu-img">
-                            <img src="/spaghetti_eis_premium_1778188630056.png" alt="Spaghetti-Eis">
+                            <img src="./public/spaghetti_eis_premium_1778188630056.png" alt="Spaghetti-Eis" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Spaghetti-Eis Classic</h3>
@@ -159,7 +214,7 @@
                     </div>
                     <div class="menu-item tall">
                         <div class="menu-img">
-                            <img src="/spaghetti_eis_thumbnail_1778174943780.png" alt="Kinderbecher Smarties">
+                            <img src="./public/spaghetti_eis_thumbnail_1778174943780.png" alt="Kinderbecher Smarties" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Kinderbecher Smarties</h3>
@@ -169,7 +224,7 @@
                     </div>
                     <div class="menu-item wide">
                         <div class="menu-img">
-                            <img src="/spaghetti_eis_premium_1778188630056.png" alt="Spaghetti Carbonara">
+                            <img src="./public/spaghetti_eis_premium_1778188630056.png" alt="Spaghetti Carbonara" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Spaghetti Carbonara</h3>
@@ -179,7 +234,7 @@
                     </div>
                     <div class="menu-item">
                         <div class="menu-img">
-                            <img src="/ingredients.png" alt="Eiskaffee">
+                            <img src="./public/ingredients.png" alt="Eiskaffee" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Original Eiskaffee</h3>
@@ -193,7 +248,7 @@
                 <div class="menu-grid" id="waffeln">
                     <div class="menu-item large">
                         <div class="menu-img">
-                            <img src="/frozen_joghurt_berries_1778188641269.png" alt="Frozen Joghurt">
+                            <img src="./public/frozen_joghurt_berries_1778188641269.png" alt="Frozen Joghurt" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Frozen Joghurt (Groß)</h3>
@@ -203,7 +258,7 @@
                     </div>
                     <div class="menu-item wide">
                         <div class="menu-img">
-                            <img src="/premium_crepe_waffle_1778188661792.png" alt="Hausgemachte Waffel">
+                            <img src="./public/premium_crepe_waffle_1778188661792.png" alt="Hausgemachte Waffel" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Melodi Edel-Waffel</h3>
@@ -213,7 +268,7 @@
                     </div>
                     <div class="menu-item tall">
                         <div class="menu-img">
-                            <img src="/warm_waffle_thumbnail_1778175002133.png" alt="Frische Crepes">
+                            <img src="./public/warm_waffle_thumbnail_1778175002133.png" alt="Frische Crepes" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Frische Crepes</h3>
@@ -223,13 +278,67 @@
                     </div>
                     <div class="menu-item">
                         <div class="menu-img">
-                            <img src="/pistachio.png" alt="Frozen Joghurt Klein">
+                            <img src="./public/pistachio.png" alt="Frozen Joghurt Klein" loading="lazy">
                         </div>
                         <div class="menu-info">
                             <h3>Frozen Joghurt (Mini)</h3>
                             <p>Der kleine Genuss für Zwischendurch.</p>
                         </div>
                         <span class="menu-price">3.80 €</span>
+                    </div>
+                </div>
+
+                <!-- Shakes & Getränke -->
+                <div class="menu-grid" id="getraenke">
+                    <div class="menu-item large">
+                        <div class="menu-img">
+                            <img src="https://images.pexels.com/photos/3727250/pexels-photo-3727250.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Milchshake Classico" loading="lazy">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Milchshake Classico</h3>
+                            <p>Cremiger Shake nach Wahl — Erdbeere, Schokolade oder Vanille. Mit Sahne & Topping.</p>
+                        </div>
+                        <span class="menu-price">6.50 €</span>
+                    </div>
+                    <div class="menu-item tall">
+                        <div class="menu-img">
+                            <img src="https://images.pexels.com/photos/1739535/pexels-photo-1739535.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pistazien-Shake" loading="lazy">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Pistazien-Shake</h3>
+                            <p>Original Bronte-Pistazie, cremig aufgeshaked mit Mandelmilch.</p>
+                        </div>
+                        <span class="menu-price">7.00 €</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-img">
+                            <img src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Freddo Espresso" loading="lazy">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Freddo Espresso</h3>
+                            <p>Eisgekühlter Espresso auf Eiswürfeln. Intensiv & erfrischend.</p>
+                        </div>
+                        <span class="menu-price">4.50 €</span>
+                    </div>
+                    <div class="menu-item wide">
+                        <div class="menu-img">
+                            <img src="https://images.pexels.com/photos/1346347/pexels-photo-1346347.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Mango Smoothie" loading="lazy">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Mango Alphonso Smoothie</h3>
+                            <p>Frischer Mango Alphonso, Maracuja & eine Kugel Sorbetto. Vegan.</p>
+                        </div>
+                        <span class="menu-price">6.00 €</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-img">
+                            <img src="https://images.pexels.com/photos/2109099/pexels-photo-2109099.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Limonata Italiana" loading="lazy">
+                        </div>
+                        <div class="menu-info">
+                            <h3>Limonata Italiana</h3>
+                            <p>Hausgemachte Limonade mit sizilianischer Zitrone & Minze.</p>
+                        </div>
+                        <span class="menu-price">4.00 €</span>
                     </div>
                 </div>
             </div>
@@ -240,6 +349,7 @@
     <section id="events" class="section">
         <div class="container">
             <div class="section-header reveal">
+                <span class="section-eyebrow">gli eventi</span>
                 <h2>Events & Specials</h2>
                 <div class="line"></div>
             </div>
@@ -267,42 +377,52 @@
     <section id="journal" class="section bg-light">
         <div class="container">
             <div class="section-header reveal">
+                <span class="section-eyebrow">il giornale</span>
                 <h2>Melodi Journal</h2>
                 <div class="line"></div>
             </div>
-            <div class="journal-grid">
-                <a href="#" class="journal-card reveal">
-                    <div class="journal-img">
-                        <img src="/melodia_journal_story_1_1778174106531.png" alt="Journal Story 1">
+            <div class="journal-editorial">
+                <a href="#" class="journal-featured reveal">
+                    <div class="journal-featured-img">
+                        <img src="./public/melodia_journal_story_1_1778174106531.png" alt="Pistazien aus Bronte" loading="lazy">
                     </div>
-                    <h3>Das Geheimnis der Pistazie</h3>
-                    <p>Warum wir nur Pistazien aus Bronte für unser Gelato verwenden.</p>
-                </a>
-                <a href="#" class="journal-card reveal">
-                    <div class="journal-img">
-                        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=800" alt="Journal Story 2">
+                    <div class="journal-featured-body">
+                        <span class="journal-tag">Zutaten</span>
+                        <h3>Das Geheimnis der Pistazie</h3>
+                        <p>Warum wir nur Pistazien aus Bronte verwenden — und warum das den Unterschied macht.</p>
+                        <span class="journal-read-more">Weiterlesen <i class="fas fa-arrow-right"></i></span>
                     </div>
-                    <h3>Handwerk vs. Industrie</h3>
-                    <p>Was echtes Gelato von herkömmlichem Eis unterscheidet.</p>
                 </a>
-                <a href="#" class="journal-card reveal">
-                    <div class="journal-img">
-                        <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?auto=format&fit=crop&q=80&w=800" alt="Journal Story 3">
-                    </div>
-                    <h3>Saisonal genießen</h3>
-                    <p>Unsere fruchtigen Sorbets und die Erntezeiten in Italien.</p>
-                </a>
+                <div class="journal-secondary">
+                    <a href="#" class="journal-card reveal">
+                        <div class="journal-img">
+                            <img src="https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Handgefertigtes Gelato" loading="lazy">
+                        </div>
+                        <span class="journal-tag">Handwerk</span>
+                        <h3>Handwerk vs. Industrie</h3>
+                        <p>Was echtes Gelato von herkömmlichem Eis unterscheidet.</p>
+                    </a>
+                    <a href="#" class="journal-card reveal">
+                        <div class="journal-img">
+                            <img src="https://images.pexels.com/photos/1132558/pexels-photo-1132558.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Saisonale Früchte" loading="lazy">
+                        </div>
+                        <span class="journal-tag">Saison</span>
+                        <h3>Saisonal genießen</h3>
+                        <p>Unsere fruchtigen Sorbets und die Erntezeiten in Italien.</p>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- TripAdvisor -->
-    <section class="section reviews-section">
-        <div class="container">
-            <div class="review-placeholder glass reveal">
-                <i class="fab fa-tripadvisor" style="font-size: 3rem; color: var(--emerald); margin-bottom: 1rem;"></i>
-                <p style="font-style: italic; font-size: 1.5rem;">"Das beste Gelato außerhalb von Italien! Die Textur ist einfach unglaublich."</p>
-                <p style="margin-top: 1rem; font-weight: 600;">— TripAdvisor Reviewer</p>
+    <!-- Quote -->
+    <section class="quote-section">
+        <div class="quote-inner reveal">
+            <div class="quote-mark">"</div>
+            <blockquote class="quote-text">Das beste Gelato außerhalb von Italien. Die Textur ist einfach unglaublich.</blockquote>
+            <div class="quote-source">
+                <i class="fab fa-tripadvisor"></i>
+                <span>TripAdvisor · 5 Sterne</span>
             </div>
         </div>
     </section>
@@ -312,11 +432,12 @@
         <div class="container">
             <div class="contact-container">
                 <div class="contact-text reveal">
+                    <span class="section-eyebrow" style="text-align:left; display:block;">dove siamo</span>
                     <h2>Besuchen Sie uns</h2>
-                    <p style="margin: 2rem 0;">Neusser Str. 16, 50733 Köln<br>Täglich 10:00 – 21:00 Uhr</p>
-                    <div class="social-links" style="display: flex; gap: 1.5rem;">
-                        <a href="#" style="color: var(--emerald); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-                        <a href="#" style="color: var(--emerald); font-size: 1.5rem;"><i class="fab fa-facebook-f"></i></a>
+                    <p style="margin: var(--s-400) 0;">Neusser Str. 16, 50733 Köln<br>Täglich 10:00 – 21:00 Uhr</p>
+                    <div class="social-links" style="display: flex; gap: var(--s-400);">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
                 <div class="map-placeholder reveal">
@@ -328,16 +449,27 @@
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <a href="#home" class="footer-logo logo-font">Melodia</a>
+            <div class="footer-center">
+                <p>Neusser Str. 16 · 50733 Köln</p>
+                <p>Täglich 10:00 – 21:00 Uhr</p>
+            </div>
+            <div class="footer-right">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <span>© 2026 Melodia</span>
+            </div>
+        </div>
+    </footer>
+
     <!-- Floating Button -->
     <div class="floating-btn" onclick="window.location.href='#visit'">
         <i class="fas fa-map-marker-alt"></i>
     </div>
 
-    <!-- Custom Scrollbar -->
-    <div class="scroll-track">
-        <div class="scroll-thumb"></div>
-    </div>
-
-    <script type="module" src="/src/main.js"></script>
+    <script src="./src/main.js"></script>
 </body>
 </html>

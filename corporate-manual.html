@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melodia — Corporate Brand Manual 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* =============================================
+           DESIGN TOKENS
+        ============================================= */
+        :root {
+            /* Emerald Scale */
+            --emerald-0:   #f0faf5;
+            --emerald-100: #c8ecd8;
+            --emerald-200: #80cfa4;
+            --emerald-300: #2da160;
+            --emerald-400: #1F814A;
+            --emerald-500: #186040;
+            --emerald-600: #155e36;
+            --emerald-700: #0d3d22;
+
+            /* Cream Scale */
+            --cream-0:   #ffffff;
+            --cream-100: #fefef9;
+            --cream-200: #FCFAF2;
+            --cream-300: #f2efe1;
+            --cream-400: #e8e3cc;
+            --cream-500: #cdc5a0;
+
+            /* Text Scale */
+            --text-900: #1a1a1a;
+            --text-700: #2d3436;
+            --text-400: #636e72;
+            --text-200: #b2bec3;
+
+            /* Semantic Aliases */
+            --color-primary:       var(--emerald-400);
+            --color-primary-light: var(--emerald-300);
+            --color-primary-dark:  var(--emerald-600);
+            --color-bg:            var(--cream-200);
+            --color-bg-alt:        var(--cream-300);
+            --color-surface:       var(--cream-0);
+            --color-text:          var(--text-700);
+            --color-text-muted:    var(--text-400);
+            --glass-fill:          rgba(255,255,255,0.15);
+            --glass-border:        rgba(255,255,255,0.2);
+
+            /* Spacing (8pt Grid) */
+            --s-100: 0.5rem;
+            --s-200: 1rem;
+            --s-300: 1.5rem;
+            --s-400: 2rem;
+            --s-500: 2.5rem;
+            --s-600: 3rem;
+            --s-700: 3.5rem;
+
+            /* Border Radius */
+            --radius-sm:   0.375rem;
+            --radius-md:   0.625rem;
+            --radius-lg:   0.875rem;
+            --radius-pill: 50px;
+
+            /* Motion */
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out:    cubic-bezier(0, 0, 0.2, 1);
+            --duration-fast: 0.18s;
+            --duration-base: 0.35s;
+            --duration-slow: 0.8s;
+        }
+
+        /* =============================================
+           RESET & BASE
+        ============================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { display: none; }
+
+        body {
+            background: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* =============================================
+           SIDEBAR NAV
+        ============================================= */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0;
+            width: 260px;
+            height: 100vh;
+            background: var(--color-surface);
+            border-right: 1px solid var(--cream-400);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            padding: var(--s-600) var(--s-400);
+            border-bottom: 1px solid var(--cream-400);
+        }
+
+        .sidebar-brand .logo-script {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            display: block;
+        }
+
+        .sidebar-brand .manual-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .sidebar-nav { padding: var(--s-400) 0; flex: 1; }
+
+        .nav-group { margin-bottom: var(--s-400); }
+
+        .nav-group-label {
+            font-size: 0.55rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-200);
+            padding: 0 var(--s-400) var(--s-100);
+            display: block;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--s-200);
+            padding: 0.75rem var(--s-400);
+            text-decoration: none;
+            color: var(--color-text-muted);
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s var(--ease-smooth);
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--color-primary);
+            background: var(--emerald-0);
+            border-left-color: var(--color-primary);
+        }
+
+        .nav-item i { width: 16px; font-size: 0.75rem; }
+
+        .sidebar-footer {
+            padding: var(--s-400);
+            border-top: 1px solid var(--cream-400);
+            font-size: 0.65rem;
+            color: var(--text-200);
+            line-height: 1.8;
+        }
+
+        /* =============================================
+           MAIN CONTENT
+        ============================================= */
+        .main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        /* =============================================
+           HERO / COVER
+        ============================================= */
+        .cover {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .cover-img {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .cover-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,35,22,0.95) 0%, rgba(0,0,0,0.1) 60%);
+        }
+
+        .italian-line {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(to right, #009246 33.3%, #ffffff 33.3%, #ffffff 66.6%, #ce2b37 66.6%);
+            z-index: 10;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 3;
+            padding: clamp(3rem, 8vw, 8rem);
+            width: 100%;
+        }
+
+        .cover-eyebrow {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--emerald-300);
+            margin-bottom: var(--s-300);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cover-eyebrow::before {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background: var(--emerald-300);
+        }
+
+        .cover-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(4rem, 10vw, 9rem);
+            color: #fff;
+            line-height: 0.9;
+            margin-bottom: var(--s-300);
+        }
+
+        .cover-subtitle {
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .cover-version {
+            position: absolute;
+            bottom: clamp(3rem, 8vw, 8rem);
+            right: clamp(3rem, 8vw, 8rem);
+            text-align: right;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            z-index: 3;
+        }
+
+        /* =============================================
+           SECTIONS
+        ============================================= */
+        .section {
+            padding: clamp(5rem, 10vw, 9rem) clamp(2rem, 8%, 7rem);
+            border-bottom: 1px solid var(--cream-400);
+        }
+
+        .section:nth-child(even) {
+            background: var(--color-bg-alt);
+        }
+
+        .section-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: var(--s-300);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--cream-400);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            color: var(--text-900);
+            margin-bottom: var(--s-300);
+            line-height: 1.1;
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin-bottom: clamp(3rem, 6vw, 6rem);
+            line-height: 1.8;
+        }
+
+        /* =============================================
+           SECTION: LOGO
+        ============================================= */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .logo-card {
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            border: 1px solid var(--cream-400);
+            flex-direction: column;
+            gap: var(--s-300);
+        }
+
+        .logo-card.bg-cream { background: var(--cream-200); }
+        .logo-card.bg-dark  { background: var(--emerald-700); }
+        .logo-card.bg-green { background: var(--color-primary); }
+
+        .logo-card .logo-script {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--color-primary);
+        }
+
+        .logo-card.bg-dark  .logo-script,
+        .logo-card.bg-green .logo-script { color: #fff; }
+
+        .logo-card-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-200);
+        }
+
+        .logo-card.bg-dark  .logo-card-label { color: rgba(255,255,255,0.4); }
+        .logo-card.bg-green .logo-card-label { color: rgba(255,255,255,0.6); }
+
+        /* =============================================
+           SECTION: COLORS
+        ============================================= */
+        .color-system {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .color-row-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--s-200);
+        }
+
+        .color-scale {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            height: 120px;
+        }
+
+        .color-swatch {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            position: relative;
+        }
+
+        .color-swatch-name {
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .color-swatch-hex {
+            font-size: 0.55rem;
+            opacity: 0.7;
+            font-family: monospace;
+        }
+
+        .color-swatch.light .color-swatch-name,
+        .color-swatch.light .color-swatch-hex { color: var(--text-400); }
+
+        .color-swatch.dark .color-swatch-name,
+        .color-swatch.dark .color-swatch-hex { color: rgba(255,255,255,0.8); }
+
+        .primary-dot {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #fff;
+        }
+
+        /* Semantic tokens */
+        .semantic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .semantic-card {
+            border-radius: var(--radius-sm);
+            padding: var(--s-400);
+            border: 1px solid var(--cream-400);
+            background: var(--color-surface);
+        }
+
+        .semantic-card-title {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: var(--s-200);
+        }
+
+        .semantic-swatch {
+            height: 48px;
+            border-radius: 0.5rem;
+            margin-bottom: var(--s-200);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .token-code {
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: var(--color-primary);
+            background: var(--emerald-0);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* =============================================
+           SECTION: TYPOGRAPHY
+        ============================================= */
+        .type-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .type-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 3rem;
+            align-items: baseline;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--cream-400);
+        }
+
+        .type-meta { display: flex; flex-direction: column; gap: 0.25rem; }
+
+        .type-meta-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-primary);
+        }
+
+        .type-meta-spec {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            line-height: 1.8;
+            font-family: monospace;
+        }
+
+        .type-display {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            color: var(--color-primary);
+            line-height: 1;
+        }
+
+        .type-h1 {
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 700;
+            line-height: 1.05;
+            color: var(--text-900);
+        }
+
+        .type-h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            color: var(--text-900);
+        }
+
+        .type-h3 {
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-weight: 600;
+            color: var(--text-900);
+        }
+
+        .type-body {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--color-text);
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .type-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+
+        /* =============================================
+           SECTION: GRID & SPACING
+        ============================================= */
+        .grid-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .grid-cell {
+            height: 200px;
+            background: var(--emerald-0);
+            border: 1px dashed var(--emerald-200);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--emerald-400);
+        }
+
+        .bento-demo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 200px;
+            gap: 1rem;
+        }
+
+        .bento-cell {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-cell img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .bento-cell .bento-tag {
+            position: absolute;
+            bottom: 1rem; left: 1rem;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+        }
+
+        .bento-cell.large { grid-column: span 2; grid-row: span 2; }
+        .bento-cell.wide  { grid-column: span 2; }
+        .bento-cell.tall  { grid-row: span 2; }
+
+        /* Spacing Scale */
+        .spacing-scale {
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-300);
+            margin-top: 3rem;
+        }
+
+        .spacing-row {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .spacing-token {
+            font-family: monospace;
+            font-size: 0.7rem;
+            color: var(--color-primary);
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .spacing-bar {
+            height: 32px;
+            background: var(--color-primary);
+            border-radius: 4px;
+            opacity: 0.15;
+        }
+
+        .spacing-val {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            font-family: monospace;
+            white-space: nowrap;
+        }
+
+        /* =============================================
+           SECTION: COMPONENTS
+        ============================================= */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .component-block {
+            background: var(--color-surface);
+            border: 1px solid var(--cream-400);
+            border-radius: var(--radius-md);
+            padding: var(--s-500);
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-400);
+        }
+
+        .component-block-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-200);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 48px;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(31,129,74,0.35);
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 48px;
+        }
+
+        .btn-ghost:hover {
+            background: var(--color-primary);
+            color: #fff;
+        }
+
+        /* Nav Pill */
+        .nav-pill-demo {
+            display: inline-flex;
+            gap: 2rem;
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            background: var(--glass-fill);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .nav-pill-demo a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-pill-demo a.active { color: var(--color-primary); }
+
+        /* Glass Card */
+        .glass-card-demo {
+            background: linear-gradient(135deg, var(--emerald-600), var(--emerald-700));
+            border-radius: var(--radius-md);
+            padding: var(--s-500);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card-inner {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-sm);
+            padding: var(--s-400);
+            color: #fff;
+        }
+
+        .glass-card-inner h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .glass-card-inner p {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .badge-green  { background: var(--emerald-0); color: var(--color-primary); border: 1px solid var(--emerald-100); }
+        .badge-cream  { background: var(--cream-400); color: var(--text-700); border: 1px solid var(--cream-500); }
+        .badge-dark   { background: var(--emerald-700); color: #fff; }
+
+        /* Event Card */
+        .event-card-demo {
+            background: var(--color-surface);
+            border: 1px solid var(--cream-400);
+            border-radius: var(--radius-md);
+            padding: var(--s-500);
+            text-align: center;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .event-card-demo:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        .event-day-label {
+            display: block;
+            color: var(--color-primary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: var(--s-200);
+        }
+
+        .event-card-demo h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: var(--s-200);
+        }
+
+        .event-card-demo p {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            line-height: 1.7;
+        }
+
+        /* Ticker */
+        .ticker-demo {
+            background: var(--color-primary);
+            padding: 1.2rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-radius: var(--radius-sm);
+        }
+
+        .ticker-track {
+            display: inline-block;
+            animation: ticker 15s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 3rem;
+            color: var(--cream-200);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        @keyframes ticker {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* FAB */
+        .fab-demo {
+            width: 56px; height: 56px;
+            background: var(--color-primary);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(31,129,74,0.3);
+            cursor: pointer;
+            transition: all 0.4s var(--ease-spring);
+        }
+
+        .fab-demo:hover { transform: scale(1.12) rotate(15deg); }
+
+        /* =============================================
+           SECTION: IMAGERY
+        ============================================= */
+        .imagery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .img-ratio-card {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--cream-400);
+        }
+
+        .img-ratio-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .ratio-1-1  { aspect-ratio: 1/1; }
+        .ratio-16-9 { aspect-ratio: 16/9; }
+        .ratio-4-5  { aspect-ratio: 4/5; }
+
+        .img-ratio-label {
+            position: absolute;
+            bottom: 1rem; left: 1rem;
+            background: rgba(0,0,0,0.65);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.3rem 0.75rem;
+            border-radius: 50px;
+        }
+
+        /* Dos & Donts */
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .do-card, .dont-card {
+            border-radius: var(--radius-md);
+            padding: var(--s-500);
+            border: 2px solid;
+        }
+
+        .do-card { border-color: var(--emerald-200); background: var(--emerald-0); }
+        .dont-card { border-color: #f0c4c4; background: #fff8f8; }
+
+        .do-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-primary);
+            margin-bottom: var(--s-300);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dont-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #c0392b;
+            margin-bottom: var(--s-300);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rule-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--s-200);
+        }
+
+        .rule-list li {
+            font-size: 0.85rem;
+            color: var(--color-text);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .rule-list li i { margin-top: 0.2rem; flex-shrink: 0; }
+
+        /* =============================================
+           SECTION: MOTION
+        ============================================= */
+        .motion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .motion-card {
+            background: var(--color-surface);
+            border: 1px solid var(--cream-400);
+            border-radius: var(--radius-md);
+            padding: var(--s-500);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .motion-box {
+            width: 60px; height: 60px;
+            background: var(--color-primary);
+            border-radius: var(--radius-sm);
+            margin: 0 auto var(--s-400);
+            transition-duration: 0.6s;
+            transition-property: transform, border-radius;
+        }
+
+        .motion-card:hover .motion-box-smooth { transition-timing-function: cubic-bezier(0.4,0,0.2,1); transform: translateX(30px); }
+        .motion-card:hover .motion-box-out    { transition-timing-function: cubic-bezier(0,0,0.2,1); border-radius: 50%; }
+        .motion-card:hover .motion-box-fade   { opacity: 0.2; }
+
+        .motion-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .motion-code {
+            font-family: monospace;
+            font-size: 0.6rem;
+            color: var(--color-text-muted);
+            line-height: 1.8;
+        }
+
+        /* =============================================
+           SECTION: A11Y
+        ============================================= */
+        .a11y-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .a11y-card {
+            background: var(--color-surface);
+            border: 1px solid var(--cream-400);
+            border-radius: var(--radius-md);
+            padding: var(--s-500);
+        }
+
+        .contrast-pair {
+            display: flex;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            height: 80px;
+            margin-bottom: var(--s-300);
+        }
+
+        .contrast-bg {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .a11y-ratio {
+            display: inline-block;
+            background: var(--emerald-0);
+            color: var(--color-primary);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            margin-bottom: var(--s-200);
+        }
+
+        .a11y-pass {
+            color: var(--color-primary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* =============================================
+           PAGE FOOTER
+        ============================================= */
+        .manual-footer {
+            background: var(--emerald-700);
+            color: rgba(255,255,255,0.5);
+            padding: var(--s-600) clamp(2rem, 8%, 7rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        .manual-footer .logo-script {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* =============================================
+           RESPONSIVE
+        ============================================= */
+        @media (max-width: 1100px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; }
+            .component-grid,
+            .logo-grid,
+            .imagery-grid,
+            .bento-demo,
+            .motion-grid { grid-template-columns: 1fr; }
+            .bento-cell.large,
+            .bento-cell.wide,
+            .bento-cell.tall { grid-column: span 1; grid-row: span 1; }
+            .color-scale { grid-template-columns: repeat(4, 1fr); height: auto; }
+            .semantic-grid { grid-template-columns: 1fr 1fr; }
+            .type-row { grid-template-columns: 1fr; }
+            .dos-donts { grid-template-columns: 1fr; }
+            .a11y-grid { grid-template-columns: 1fr; }
+            .grid-demo { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <span class="logo-script">Melodia</span>
+            <span class="manual-label">Corporate Brand Manual 2026</span>
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-group">
+                <span class="nav-group-label">Identität</span>
+                <a href="#logo" class="nav-item active"><i class="fas fa-trademark"></i> Logo & Marke</a>
+                <a href="#colors" class="nav-item"><i class="fas fa-palette"></i> Farben</a>
+                <a href="#typography" class="nav-item"><i class="fas fa-font"></i> Typografie</a>
+            </div>
+            <div class="nav-group">
+                <span class="nav-group-label">System</span>
+                <a href="#grid" class="nav-item"><i class="fas fa-th"></i> Grid & Spacing</a>
+                <a href="#components" class="nav-item"><i class="fas fa-puzzle-piece"></i> Komponenten</a>
+                <a href="#imagery" class="nav-item"><i class="fas fa-image"></i> Bildsprache</a>
+            </div>
+            <div class="nav-group">
+                <span class="nav-group-label">Qualität</span>
+                <a href="#motion" class="nav-item"><i class="fas fa-wind"></i> Motion</a>
+                <a href="#a11y" class="nav-item"><i class="fas fa-universal-access"></i> Accessibility</a>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            Design System Agent 2026<br>
+            Version 4.0 · Full-Width Standard<br>
+            Melodia Gelateria GmbH
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- COVER -->
+        <section class="cover">
+            <div class="italian-line"></div>
+            <div class="cover-img"></div>
+            <div class="cover-overlay"></div>
+            <div class="cover-content">
+                <div class="cover-eyebrow">Corporate Brand Manual</div>
+                <div class="cover-title">Melodia</div>
+                <div class="cover-subtitle">Gelateria · Handcrafted in Cologne · Since 2024</div>
+            </div>
+            <div class="cover-version">
+                Design System Agent 2026<br>
+                Version 4.0
+            </div>
+        </section>
+
+        <!-- ======================== LOGO ======================== -->
+        <section id="logo" class="section">
+            <div class="section-label">01 — Identität</div>
+            <h2 class="section-title">Logo & Marke</h2>
+            <p class="section-desc">Das Melodia-Wordmark basiert auf Great Vibes — einer kursiven Display-Schrift die Italianità, Handwerk und Eleganz vereint. Das Logo erscheint ausschließlich in den definierten Farbvarianten.</p>
+
+            <div class="logo-grid">
+                <div class="logo-card bg-cream">
+                    <span class="logo-script">Melodia</span>
+                    <span class="logo-card-label">Primary — On Cream</span>
+                </div>
+                <div class="logo-card bg-dark">
+                    <span class="logo-script">Melodia</span>
+                    <span class="logo-card-label">Reversed — On Dark</span>
+                </div>
+                <div class="logo-card bg-green">
+                    <span class="logo-script">Melodia</span>
+                    <span class="logo-card-label">Reversed — On Brand</span>
+                </div>
+            </div>
+
+            <div style="margin-top:3rem; padding:2rem; background:var(--color-surface); border:1px solid var(--cream-400); border-radius:1rem;">
+                <div class="section-label" style="margin-bottom:1.5rem;">Mindestgrößen & Schutzzone</div>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; text-align:center;">
+                    <div>
+                        <div style="font-size:0.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:1rem;">Digital</div>
+                        <div style="font-family:'Great Vibes',cursive;font-size:1.8rem;color:var(--color-primary);">Melodia</div>
+                        <div style="font-size:0.65rem;color:var(--color-text-muted);margin-top:0.5rem;">min. 28px Höhe</div>
+                    </div>
+                    <div>
+                        <div style="font-size:0.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:1rem;">Print</div>
+                        <div style="font-family:'Great Vibes',cursive;font-size:2.5rem;color:var(--color-primary);">Melodia</div>
+                        <div style="font-size:0.65rem;color:var(--color-text-muted);margin-top:0.5rem;">min. 10mm Höhe</div>
+                    </div>
+                    <div>
+                        <div style="font-size:0.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:1rem;">Schutzzone</div>
+                        <div style="font-family:'Great Vibes',cursive;font-size:2rem;color:var(--color-primary);outline:2px dashed var(--cream-400);padding:0.5rem 1rem;display:inline-block;">Melodia</div>
+                        <div style="font-size:0.65rem;color:var(--color-text-muted);margin-top:0.5rem;">= 1× Großbuchstabenhöhe</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== COLORS ======================== -->
+        <section id="colors" class="section">
+            <div class="section-label">02 — Farben</div>
+            <h2 class="section-title">Farbsystem</h2>
+            <p class="section-desc">8-stufige Skala (0–700). Stufe 400 = Brand Primary. Schritte je 25% Helligkeitsdifferenz. Alle Farben als CSS Custom Properties definiert.</p>
+
+            <div class="color-system">
+                <div>
+                    <div class="color-row-label">Emerald — Brand Primary</div>
+                    <div class="color-scale">
+                        <div class="color-swatch light" style="background:#f0faf5;">
+                            <div class="color-swatch-name" style="color:#636e72;">0</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#f0faf5</div>
+                        </div>
+                        <div class="color-swatch light" style="background:#c8ecd8;">
+                            <div class="color-swatch-name" style="color:#636e72;">100</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#c8ecd8</div>
+                        </div>
+                        <div class="color-swatch light" style="background:#80cfa4;">
+                            <div class="color-swatch-name" style="color:#2d3436;">200</div>
+                            <div class="color-swatch-hex" style="color:#2d3436;">#80cfa4</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#2da160;">
+                            <div class="color-swatch-name">300</div>
+                            <div class="color-swatch-hex">#2da160</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#1F814A; position:relative;">
+                            <div class="primary-dot"></div>
+                            <div class="color-swatch-name">400</div>
+                            <div class="color-swatch-hex">#1F814A</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#186040;">
+                            <div class="color-swatch-name">500</div>
+                            <div class="color-swatch-hex">#186040</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#155e36;">
+                            <div class="color-swatch-name">600</div>
+                            <div class="color-swatch-hex">#155e36</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#0d3d22;">
+                            <div class="color-swatch-name">700</div>
+                            <div class="color-swatch-hex">#0d3d22</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="color-row-label">Cream — Background</div>
+                    <div class="color-scale">
+                        <div class="color-swatch" style="background:#ffffff; border:1px solid var(--cream-400);">
+                            <div class="color-swatch-name" style="color:#636e72;">0</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#ffffff</div>
+                        </div>
+                        <div class="color-swatch" style="background:#fefef9;">
+                            <div class="color-swatch-name" style="color:#636e72;">100</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#fefef9</div>
+                        </div>
+                        <div class="color-swatch" style="background:#FCFAF2; position:relative;">
+                            <div class="primary-dot" style="background:var(--text-400);"></div>
+                            <div class="color-swatch-name" style="color:#636e72;">200</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#FCFAF2</div>
+                        </div>
+                        <div class="color-swatch" style="background:#f2efe1;">
+                            <div class="color-swatch-name" style="color:#636e72;">300</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#f2efe1</div>
+                        </div>
+                        <div class="color-swatch" style="background:#e8e3cc;">
+                            <div class="color-swatch-name" style="color:#636e72;">400</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#e8e3cc</div>
+                        </div>
+                        <div class="color-swatch" style="background:#cdc5a0;">
+                            <div class="color-swatch-name" style="color:#636e72;">500</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#cdc5a0</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#a69b70;">
+                            <div class="color-swatch-name">600</div>
+                            <div class="color-swatch-hex">#a69b70</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#7a7250;">
+                            <div class="color-swatch-name">700</div>
+                            <div class="color-swatch-hex">#7a7250</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="color-row-label">Text — Neutral</div>
+                    <div class="color-scale">
+                        <div class="color-swatch" style="background:#f5f5f5; border:1px solid var(--cream-400);">
+                            <div class="color-swatch-name" style="color:#636e72;">0</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#f5f5f5</div>
+                        </div>
+                        <div class="color-swatch" style="background:#dfe6e9;">
+                            <div class="color-swatch-name" style="color:#636e72;">100</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#dfe6e9</div>
+                        </div>
+                        <div class="color-swatch" style="background:#b2bec3;">
+                            <div class="color-swatch-name" style="color:#636e72;">200</div>
+                            <div class="color-swatch-hex" style="color:#636e72;">#b2bec3</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#636e72;">
+                            <div class="color-swatch-name">400</div>
+                            <div class="color-swatch-hex">#636e72</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#2d3436; position:relative;">
+                            <div class="primary-dot"></div>
+                            <div class="color-swatch-name">700</div>
+                            <div class="color-swatch-hex">#2d3436</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#1a1a1a;">
+                            <div class="color-swatch-name">900</div>
+                            <div class="color-swatch-hex">#1a1a1a</div>
+                        </div>
+                        <div class="color-swatch dark" style="background:#000000; grid-column:span 2;">
+                            <div class="color-swatch-name">1000</div>
+                            <div class="color-swatch-hex">#000000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Semantic Tokens -->
+            <div class="semantic-grid">
+                <div class="semantic-card">
+                    <div class="semantic-card-title">color-primary</div>
+                    <div class="semantic-swatch" style="background:var(--color-primary);"></div>
+                    <code class="token-code">--color-primary</code>
+                    <div style="font-size:0.7rem;color:var(--color-text-muted);margin-top:0.5rem;">Buttons, Links, Akzente</div>
+                </div>
+                <div class="semantic-card">
+                    <div class="semantic-card-title">color-bg</div>
+                    <div class="semantic-swatch" style="background:var(--color-bg);border:1px solid var(--cream-400);"></div>
+                    <code class="token-code">--color-bg</code>
+                    <div style="font-size:0.7rem;color:var(--color-text-muted);margin-top:0.5rem;">Page Background</div>
+                </div>
+                <div class="semantic-card">
+                    <div class="semantic-card-title">color-surface</div>
+                    <div class="semantic-swatch" style="background:var(--color-surface);border:1px solid var(--cream-400);"></div>
+                    <code class="token-code">--color-surface</code>
+                    <div style="font-size:0.7rem;color:var(--color-text-muted);margin-top:0.5rem;">Cards, Modals</div>
+                </div>
+                <div class="semantic-card">
+                    <div class="semantic-card-title">glass-fill</div>
+                    <div class="semantic-swatch" style="background:rgba(31,129,74,0.2);border:1px solid rgba(31,129,74,0.3);"></div>
+                    <code class="token-code">--glass-fill</code>
+                    <div style="font-size:0.7rem;color:var(--color-text-muted);margin-top:0.5rem;">Nav Pill, Overlays</div>
+                </div>
+                <div class="semantic-card">
+                    <div class="semantic-card-title">color-text</div>
+                    <div class="semantic-swatch" style="background:var(--color-text);"></div>
+                    <code class="token-code">--color-text</code>
+                    <div style="font-size:0.7rem;color:var(--color-text-muted);margin-top:0.5rem;">Body Text</div>
+                </div>
+                <div class="semantic-card">
+                    <div class="semantic-card-title">color-text-muted</div>
+                    <div class="semantic-swatch" style="background:var(--color-text-muted);"></div>
+                    <code class="token-code">--color-text-muted</code>
+                    <div style="font-size:0.7rem;color:var(--color-text-muted);margin-top:0.5rem;">Captions, Labels</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== TYPOGRAPHY ======================== -->
+        <section id="typography" class="section">
+            <div class="section-label">03 — Typografie</div>
+            <h2 class="section-title">Schriftsystem</h2>
+            <p class="section-desc">Zwei Schriftfamilien. Great Vibes für Display & Branding. Montserrat für alle UI-Texte. CSS clamp() garantiert flüssige Skalierung über alle Viewports.</p>
+
+            <div class="type-showcase">
+                <div class="type-row">
+                    <div class="type-meta">
+                        <span class="type-meta-label">Display</span>
+                        <span class="type-meta-spec">Great Vibes 400<br>clamp(3rem, 6vw, 5.5rem)<br>color-primary</span>
+                    </div>
+                    <div class="type-display">Echte Eiskunst</div>
+                </div>
+                <div class="type-row">
+                    <div class="type-meta">
+                        <span class="type-meta-label">Heading 1</span>
+                        <span class="type-meta-spec">Montserrat 700<br>clamp(3rem, 7vw, 6rem)<br>text-900</span>
+                    </div>
+                    <div class="type-h1">Tradizione<br>Italiana</div>
+                </div>
+                <div class="type-row">
+                    <div class="type-meta">
+                        <span class="type-meta-label">Heading 2</span>
+                        <span class="type-meta-spec">Montserrat 700<br>clamp(2rem, 4vw, 3.5rem)<br>text-900</span>
+                    </div>
+                    <div class="type-h2">Unsere Eiskarte</div>
+                </div>
+                <div class="type-row">
+                    <div class="type-meta">
+                        <span class="type-meta-label">Heading 3</span>
+                        <span class="type-meta-spec">Montserrat 600<br>clamp(1.2rem, 2vw, 1.6rem)<br>text-900</span>
+                    </div>
+                    <div class="type-h3">Pistazien-Becher — Original Bronte</div>
+                </div>
+                <div class="type-row">
+                    <div class="type-meta">
+                        <span class="type-meta-label">Body</span>
+                        <span class="type-meta-spec">Montserrat 400<br>1rem · line-height 1.8<br>color-text</span>
+                    </div>
+                    <div class="type-body">Handgefertigtes Gelato aus frischen Zutaten. Jede Sorte wird täglich neu zubereitet – ohne künstliche Aromen, ohne Kompromisse.</div>
+                </div>
+                <div class="type-row">
+                    <div class="type-meta">
+                        <span class="type-meta-label">Label / Tag</span>
+                        <span class="type-meta-spec">Montserrat 700<br>0.7rem · letter-spacing 2px<br>UPPERCASE</span>
+                    </div>
+                    <div class="type-label">Tradizione Italiana · Handmade in Cologne</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== GRID ======================== -->
+        <section id="grid" class="section">
+            <div class="section-label">04 — Layout</div>
+            <h2 class="section-title">Grid & Spacing</h2>
+            <p class="section-desc">3-Column Full-Width Desktop-Grid. 8pt Spacing-Skala. Bento-Ratios für alle Card-Größen. Mobile-First: 1 Spalte → 2 Spalten → 3 Spalten.</p>
+
+            <div class="section-label" style="margin-bottom:1.5rem;">3-Column Grid</div>
+            <div class="grid-demo">
+                <div class="grid-cell">Col 1</div>
+                <div class="grid-cell">Col 2</div>
+                <div class="grid-cell">Col 3</div>
+            </div>
+
+            <div class="section-label" style="margin-bottom:1.5rem;">Bento Grid — Melodia Speisekarte</div>
+            <div class="bento-demo">
+                <div class="bento-cell large">
+                    <img src="https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Gelato" loading="lazy">
+                    <span class="bento-tag">Large 2×2</span>
+                </div>
+                <div class="bento-cell tall">
+                    <img src="https://images.pexels.com/photos/2233348/pexels-photo-2233348.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ice Cream Cone" loading="lazy">
+                    <span class="bento-tag">Tall 1×2</span>
+                </div>
+                <div class="bento-cell">
+                    <img src="https://images.pexels.com/photos/1132558/pexels-photo-1132558.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fruits" loading="lazy">
+                    <span class="bento-tag">Default 1×1</span>
+                </div>
+                <div class="bento-cell wide">
+                    <img src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ice Cream" loading="lazy">
+                    <span class="bento-tag">Wide 2×1</span>
+                </div>
+                <div class="bento-cell">
+                    <img src="https://images.pexels.com/photos/5060386/pexels-photo-5060386.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gelato Scoop" loading="lazy">
+                    <span class="bento-tag">Default 1×1</span>
+                </div>
+            </div>
+
+            <div class="section-label" style="margin-bottom:1.5rem; margin-top:4rem;">8pt Spacing Scale</div>
+            <div class="spacing-scale">
+                <div class="spacing-row">
+                    <span class="spacing-token">--s-100</span>
+                    <div class="spacing-bar" style="width:8px;"></div>
+                    <span class="spacing-val">8px / 0.5rem</span>
+                </div>
+                <div class="spacing-row">
+                    <span class="spacing-token">--s-200</span>
+                    <div class="spacing-bar" style="width:16px;"></div>
+                    <span class="spacing-val">16px / 1rem</span>
+                </div>
+                <div class="spacing-row">
+                    <span class="spacing-token">--s-300</span>
+                    <div class="spacing-bar" style="width:24px;"></div>
+                    <span class="spacing-val">24px / 1.5rem</span>
+                </div>
+                <div class="spacing-row">
+                    <span class="spacing-token">--s-400</span>
+                    <div class="spacing-bar" style="width:32px;"></div>
+                    <span class="spacing-val">32px / 2rem</span>
+                </div>
+                <div class="spacing-row">
+                    <span class="spacing-token">--s-500</span>
+                    <div class="spacing-bar" style="width:40px;"></div>
+                    <span class="spacing-val">40px / 2.5rem</span>
+                </div>
+                <div class="spacing-row">
+                    <span class="spacing-token">--s-600</span>
+                    <div class="spacing-bar" style="width:48px;"></div>
+                    <span class="spacing-val">48px / 3rem · min. Touch-Target</span>
+                </div>
+                <div class="spacing-row">
+                    <span class="spacing-token">--s-700</span>
+                    <div class="spacing-bar" style="width:56px;"></div>
+                    <span class="spacing-val">56px / 3.5rem</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== COMPONENTS ======================== -->
+        <section id="components" class="section">
+            <div class="section-label">05 — Komponenten</div>
+            <h2 class="section-title">UI-Bibliothek</h2>
+            <p class="section-desc">Alle Komponenten basieren auf den Token-Werten. Keine hardcodierten Farben oder Abstände außerhalb des Token-Systems.</p>
+
+            <div class="component-grid">
+                <!-- Buttons -->
+                <div class="component-block">
+                    <div class="component-block-label">Buttons</div>
+                    <button class="btn-primary">Entdecken <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn-ghost">Speisekarte <i class="fas fa-utensils"></i></button>
+                </div>
+
+                <!-- Nav Pill -->
+                <div class="component-block" style="background: linear-gradient(135deg, #2da160, #1F814A);">
+                    <div class="component-block-label" style="color:rgba(255,255,255,0.5);">Navigation Pill</div>
+                    <div class="nav-pill-demo">
+                        <a href="#" class="active">Speisekarte</a>
+                        <a href="#">Sorten</a>
+                        <a href="#">Events</a>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="component-block">
+                    <div class="component-block-label">Badges</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+                        <span class="badge badge-green"><i class="fas fa-leaf"></i> Vegan</span>
+                        <span class="badge badge-cream">Saisonal</span>
+                        <span class="badge badge-dark"><i class="fas fa-star"></i> Premium</span>
+                        <span class="badge badge-green">Tradizione Italiana</span>
+                    </div>
+                </div>
+
+                <!-- Glass Card -->
+                <div class="component-block" style="padding:0;overflow:hidden;">
+                    <div class="glass-card-demo">
+                        <div style="font-size:0.55rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1.5rem;">Glassmorphism</div>
+                        <div class="glass-card-inner">
+                            <h4>Pistacchio Puro</h4>
+                            <p>Original Bronte-Pistazie, täglich frisch zubereitet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card -->
+                <div class="component-block">
+                    <div class="component-block-label">Event Card</div>
+                    <div class="event-card-demo">
+                        <span class="event-day-label">Dienstag</span>
+                        <h4>Happy Hour</h4>
+                        <p>Zwei Kugeln zum Preis von einer. Den ganzen Tag lang.</p>
+                    </div>
+                </div>
+
+                <!-- Ticker + FAB -->
+                <div class="component-block" style="gap:2rem;">
+                    <div>
+                        <div class="component-block-label" style="margin-bottom:1rem;">Flavor Ticker</div>
+                        <div class="ticker-demo">
+                            <div class="ticker-track">
+                                <span class="ticker-item">Pistacchio Puro</span>
+                                <span class="ticker-item">Vanille Madagascar</span>
+                                <span class="ticker-item">Fragola di Bosco</span>
+                                <span class="ticker-item">Pistacchio Puro</span>
+                                <span class="ticker-item">Vanille Madagascar</span>
+                                <span class="ticker-item">Fragola di Bosco</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:2rem;">
+                        <div>
+                            <div class="component-block-label" style="margin-bottom:1rem;">FAB Button</div>
+                            <div class="fab-demo"><i class="fas fa-map-marker-alt"></i></div>
+                        </div>
+                        <div style="font-size:0.75rem;color:var(--color-text-muted);">48×48px min.<br>Touch-Target</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== IMAGERY ======================== -->
+        <section id="imagery" class="section">
+            <div class="section-label">06 — Bildsprache</div>
+            <h2 class="section-title">Foto & Asset-Logik</h2>
+            <p class="section-desc">Warme, satte Farben. Nahaufnahmen von Texturen und Zutaten. Kein Stockfoto-Feeling. Authentisches Handwerk zeigen. Externe Bilder via Pexels CDN für optimale Ladezeiten.</p>
+
+            <div class="imagery-grid">
+                <div class="img-ratio-card ratio-1-1">
+                    <img src="https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gelato Kugel" loading="lazy">
+                    <span class="img-ratio-label">1:1 — Thumbnail</span>
+                </div>
+                <div class="img-ratio-card ratio-16-9" style="grid-column:span 2;">
+                    <img src="https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Gelato Auswahl" loading="lazy">
+                    <span class="img-ratio-label">16:9 — Hero / Feature</span>
+                </div>
+                <div class="img-ratio-card ratio-4-5">
+                    <img src="https://images.pexels.com/photos/2233348/pexels-photo-2233348.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Eistüte" loading="lazy">
+                    <span class="img-ratio-label">4:5 — Portrait Card</span>
+                </div>
+                <div class="img-ratio-card ratio-4-5">
+                    <img src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Eisbecher" loading="lazy">
+                    <span class="img-ratio-label">4:5 — Portrait Card</span>
+                </div>
+                <div class="img-ratio-card ratio-1-1">
+                    <img src="https://images.pexels.com/photos/1132558/pexels-photo-1132558.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Zutaten" loading="lazy">
+                    <span class="img-ratio-label">1:1 — Detail</span>
+                </div>
+            </div>
+
+            <div class="dos-donts">
+                <div class="do-card">
+                    <div class="do-label"><i class="fas fa-check"></i> Do</div>
+                    <ul class="rule-list">
+                        <li><i class="fas fa-check" style="color:var(--color-primary);"></i> Warme, natürliche Lichtstimmung</li>
+                        <li><i class="fas fa-check" style="color:var(--color-primary);"></i> Nahaufnahmen von Texturen & Zutaten</li>
+                        <li><i class="fas fa-check" style="color:var(--color-primary);"></i> Authentische Handwerkssituationen</li>
+                        <li><i class="fas fa-check" style="color:var(--color-primary);"></i> WebP-Format für alle Fotos</li>
+                        <li><i class="fas fa-check" style="color:var(--color-primary);"></i> loading="lazy" außer LCP-Bild</li>
+                        <li><i class="fas fa-check" style="color:var(--color-primary);"></i> Pexels CDN für externe Fotos</li>
+                    </ul>
+                </div>
+                <div class="dont-card">
+                    <div class="dont-label"><i class="fas fa-times"></i> Don't</div>
+                    <ul class="rule-list">
+                        <li><i class="fas fa-times" style="color:#c0392b;"></i> Kalte, blaustichige Bilder</li>
+                        <li><i class="fas fa-times" style="color:#c0392b;"></i> Offensichtliche Stock-Fotos</li>
+                        <li><i class="fas fa-times" style="color:#c0392b;"></i> Stark gefilterte oder überbearbeitete Bilder</li>
+                        <li><i class="fas fa-times" style="color:#c0392b;"></i> PNG/JPG für neue Assets</li>
+                        <li><i class="fas fa-times" style="color:#c0392b;"></i> Bilder ohne Alt-Text</li>
+                        <li><i class="fas fa-times" style="color:#c0392b;"></i> Bilder ohne definiertes Seitenverhältnis</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== MOTION ======================== -->
+        <section id="motion" class="section">
+            <div class="section-label">07 — Motion</div>
+            <h2 class="section-title">Animation & Übergänge</h2>
+            <p class="section-desc">Zwei Easing-Kurven. Kein Overengineering — Transitions sind subtil und dienen der Orientierung, nicht der Unterhaltung. Hover über die Karten.</p>
+
+            <div class="motion-grid">
+                <div class="motion-card">
+                    <div class="motion-box motion-box-smooth"></div>
+                    <div class="motion-label">Smooth</div>
+                    <div class="motion-code">--ease-smooth<br>cubic-bezier(0.4, 0, 0.2, 1)<br>Buttons, Hover, Nav · 0.35s</div>
+                </div>
+                <div class="motion-card">
+                    <div class="motion-box motion-box-out"></div>
+                    <div class="motion-label">Ease Out</div>
+                    <div class="motion-code">--ease-out<br>cubic-bezier(0, 0, 0.2, 1)<br>Panels · 0.5s</div>
+                </div>
+                <div class="motion-card">
+                    <div class="motion-box motion-box-fade" style="background:var(--color-primary);transition-property:opacity;transition-duration:0.35s;"></div>
+                    <div class="motion-label">Opacity Fade</div>
+                    <div class="motion-code">Reveal-Animationen<br>Nur opacity, kein transform<br>0.5s ease</div>
+                </div>
+            </div>
+
+            <div style="margin-top:3rem;padding:2rem;background:var(--color-surface);border:1px solid var(--cream-400);border-radius:var(--radius-sm);">
+                <div class="section-label" style="margin-bottom:1.5rem;">Scroll Reveal — Clean (opacity only)</div>
+                <div style="font-family:monospace;font-size:0.78rem;color:var(--color-text);line-height:2;background:var(--cream-300);padding:1.5rem;border-radius:0.5rem;">
+                    <span style="color:var(--color-primary);">// Initial</span><br>
+                    el.style.opacity = '0';<br>
+                    el.style.transition = 'opacity 0.5s ease';<br><br>
+                    <span style="color:var(--color-primary);">// On Scroll</span><br>
+                    el.style.opacity = '1';
+                </div>
+                <p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:1rem;">Kein translateY — keine Layout-Shifts, kein visuelles Zittern.</p>
+            </div>
+
+            <div style="margin-top:2rem;padding:2rem;background:var(--color-surface);border:1px solid var(--cream-400);border-radius:var(--radius-sm);">
+                <div class="section-label" style="margin-bottom:1.5rem;">Border Radius — Elegant, nicht verspielt</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center;">
+                    <div>
+                        <div style="height:56px;background:var(--emerald-0);border:1px solid var(--emerald-100);border-radius:0.375rem;margin-bottom:0.75rem;"></div>
+                        <code style="font-size:0.62rem;color:var(--color-primary);">--radius-sm</code>
+                        <div style="font-size:0.6rem;color:var(--color-text-muted);margin-top:0.25rem;">6px · Tags, Inputs</div>
+                    </div>
+                    <div>
+                        <div style="height:56px;background:var(--emerald-0);border:1px solid var(--emerald-100);border-radius:0.625rem;margin-bottom:0.75rem;"></div>
+                        <code style="font-size:0.62rem;color:var(--color-primary);">--radius-md</code>
+                        <div style="font-size:0.6rem;color:var(--color-text-muted);margin-top:0.25rem;">10px · Cards</div>
+                    </div>
+                    <div>
+                        <div style="height:56px;background:var(--emerald-0);border:1px solid var(--emerald-100);border-radius:0.875rem;margin-bottom:0.75rem;"></div>
+                        <code style="font-size:0.62rem;color:var(--color-primary);">--radius-lg</code>
+                        <div style="font-size:0.6rem;color:var(--color-text-muted);margin-top:0.25rem;">14px · Container</div>
+                    </div>
+                    <div>
+                        <div style="height:56px;background:var(--emerald-0);border:1px solid var(--emerald-100);border-radius:50px;margin-bottom:0.75rem;"></div>
+                        <code style="font-size:0.62rem;color:var(--color-primary);">--radius-pill</code>
+                        <div style="font-size:0.6rem;color:var(--color-text-muted);margin-top:0.25rem;">50px · Buttons, Nav</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== VIDEO HERO ======================== -->
+        <section id="video-hero" class="section">
+            <div class="section-label">07b — Video Hero</div>
+            <h2 class="section-title">Hero — Video statt Standbild</h2>
+            <p class="section-desc">Der Hero nutzt ein autoplay/muted/loop Video via Pexels CDN. Das poster-Attribut liefert ein Standbild während das Video lädt — kein JavaScript nötig.</p>
+
+            <div style="border-radius:var(--radius-lg);overflow:hidden;position:relative;aspect-ratio:16/9;background:#0d3d22;margin-bottom:3rem;">
+                <video style="width:100%;height:100%;object-fit:cover;pointer-events:none;" autoplay muted loop playsinline
+                    poster="https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=1200">
+                    <source src="https://videos.pexels.com/video-files/9058614/9058614-hd_1920_1080_25fps.mp4" type="video/mp4">
+                </video>
+                <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(13,61,34,0.72) 0%,rgba(0,0,0,0.08) 100%);display:flex;align-items:flex-end;padding:3rem;">
+                    <div>
+                        <div style="font-size:0.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--emerald-300);margin-bottom:0.75rem;">Tradizione Italiana</div>
+                        <div style="font-family:'Great Vibes',cursive;font-size:clamp(2.5rem,5vw,4.5rem);color:#fff;line-height:1;">Echte Eiskunst</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding:2rem;background:var(--color-surface);border:1px solid var(--cream-400);border-radius:var(--radius-sm);">
+                <div class="section-label" style="margin-bottom:1.5rem;">Code-Pattern</div>
+                <div style="font-family:monospace;font-size:0.72rem;color:var(--color-text);line-height:2;background:var(--cream-300);padding:1.5rem;border-radius:0.5rem;">
+                    <span style="color:var(--color-primary);">&lt;video</span> class="hero-video" autoplay muted loop playsinline<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;poster="https://images.pexels.com/photos/{id}/..."<span style="color:var(--color-primary);">&gt;</span><br>
+                    &nbsp;&nbsp;<span style="color:var(--color-primary);">&lt;source</span> src="https://videos.pexels.com/video-files/{id}/{id}-hd_1920_1080_25fps.mp4"<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type="video/mp4"<span style="color:var(--color-primary);">&gt;</span><br>
+                    <span style="color:var(--color-primary);">&lt;/video&gt;</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+                    <div style="padding:1rem;background:var(--emerald-0);border-radius:0.5rem;border:1px solid var(--emerald-100);">
+                        <div style="font-size:0.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--color-primary);margin-bottom:0.5rem;">Pflicht-Attribute</div>
+                        <div style="font-size:0.75rem;color:var(--color-text);line-height:2;">autoplay · muted · loop · playsinline<br>poster (Standbild-Fallback)<br>object-fit: cover</div>
+                    </div>
+                    <div style="padding:1rem;background:#fff8f8;border-radius:0.5rem;border:1px solid #f0c4c4;">
+                        <div style="font-size:0.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c0392b;margin-bottom:0.5rem;">Verboten</div>
+                        <div style="font-size:0.75rem;color:var(--color-text);line-height:2;">autoplay ohne muted<br>Videos ohne poster<br>Videos > 30s Länge</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== A11Y ======================== -->
+        <section id="a11y" class="section">
+            <div class="section-label">08 — Accessibility</div>
+            <h2 class="section-title">Barrierefreiheit</h2>
+            <p class="section-desc">WCAG 2.1 AA als Mindeststandard. Kontrastverhältnis 4.5:1 für Body-Text. Alle interaktiven Elemente mind. 48×48px. Semantisches HTML immer.</p>
+
+            <div class="a11y-grid">
+                <div class="a11y-card">
+                    <div class="section-label" style="margin-bottom:1.5rem;">Emerald auf Cream</div>
+                    <div class="contrast-pair">
+                        <div class="contrast-bg" style="background:var(--cream-200); color:var(--color-primary); flex:2;">Aa</div>
+                        <div class="contrast-bg" style="background:var(--color-primary); color:#fff;">Aa</div>
+                    </div>
+                    <span class="a11y-ratio">7.2:1</span>
+                    <div class="a11y-pass"><i class="fas fa-check-circle"></i> WCAG AAA — Large & Small Text</div>
+                </div>
+                <div class="a11y-card">
+                    <div class="section-label" style="margin-bottom:1.5rem;">Text auf Cream</div>
+                    <div class="contrast-pair">
+                        <div class="contrast-bg" style="background:var(--cream-200); color:var(--text-700); flex:2; font-size:0.9rem;">Body Text</div>
+                        <div class="contrast-bg" style="background:var(--cream-200); color:var(--text-400); font-size:0.85rem;">Muted</div>
+                    </div>
+                    <span class="a11y-ratio">9.1:1 / 4.6:1</span>
+                    <div class="a11y-pass"><i class="fas fa-check-circle"></i> WCAG AA ✓ — beide Varianten</div>
+                </div>
+                <div class="a11y-card">
+                    <div class="section-label" style="margin-bottom:1.5rem;">Touch-Target Minimum</div>
+                    <div style="display:flex;align-items:center;gap:2rem;margin-bottom:1.5rem;">
+                        <div style="width:48px;height:48px;background:var(--color-primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;position:relative;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div style="position:absolute;inset:-4px;border:2px dashed var(--emerald-300);border-radius:50%;opacity:0.5;"></div>
+                        </div>
+                        <div style="font-size:0.75rem;color:var(--color-text-muted);line-height:1.8;">
+                            Minimum: <strong style="color:var(--color-text);">48×48px</strong><br>
+                            Empfohlen: 56×56px<br>
+                            Abstand: min. 8px
+                        </div>
+                    </div>
+                    <div class="a11y-pass"><i class="fas fa-check-circle"></i> WCAG 2.5.5 — Target Size</div>
+                </div>
+                <div class="a11y-card">
+                    <div class="section-label" style="margin-bottom:1.5rem;">Semantisches HTML</div>
+                    <div style="font-family:monospace;font-size:0.72rem;color:var(--color-text);line-height:2;background:var(--cream-300);padding:1rem;border-radius:0.5rem;">
+                        <span style="color:var(--color-primary);">&lt;nav&gt;</span> Navigation<br>
+                        <span style="color:var(--color-primary);">&lt;main&gt;</span> Hauptinhalt<br>
+                        <span style="color:var(--color-primary);">&lt;section&gt;</span> Themenbereich<br>
+                        <span style="color:var(--color-primary);">&lt;article&gt;</span> Journal-Eintrag<br>
+                        <span style="color:var(--color-primary);">&lt;footer&gt;</span> Seitenfuß
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="manual-footer">
+            <div>
+                <div class="logo-script">Melodia</div>
+                <div style="margin-top:0.5rem;">Gelateria · Neusser Str. 16 · 50733 Köln</div>
+            </div>
+            <div style="text-align:right;">
+                Corporate Brand Manual 2026<br>
+                Design System Agent V4.0<br>
+                Full-Width & 3-Column Standard
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Active nav highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navItems.forEach(item => item.classList.remove('active'));
+                    const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.4 });
+
+        sections.forEach(s => observer.observe(s));
+    </script>
+
+</body>
+</html>

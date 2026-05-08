@@ -1,118 +1,110 @@
-import './style.css'
+const navbar      = document.getElementById('navbar');
+const navPill     = document.getElementById('nav-pill');
+const hamburger   = document.getElementById('hamburger');
+const mobileMenu  = document.getElementById('mobile-menu');
+const mobileClose = document.getElementById('mobile-close');
+const scrollThumb = document.querySelector('.scroll-thumb');
 
-// 1. Parallax Effect for Hero
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallax = document.querySelector('.parallax');
-    if (parallax) {
-        parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
-    }
+// Nav links + their target section IDs
+const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+const navSectionIds = navLinks.map(a => a.getAttribute('href')?.replace('#', ''));
+
+// ─── Hamburger / Mobile Menu ────────────────────────────────────────────────
+function openMobileMenu() {
+    mobileMenu.classList.add('is-open');
+    hamburger.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+    mobileMenu.classList.remove('is-open');
+    hamburger.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', () => {
+    mobileMenu.classList.contains('is-open') ? closeMobileMenu() : openMobileMenu();
 });
 
-// 2. Navbar State (Glass Pill)
-const navPill = document.getElementById('nav-pill');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navPill.classList.add('scrolled');
-    } else {
-        navPill.classList.remove('scrolled');
-    }
-});
+mobileClose.addEventListener('click', closeMobileMenu);
+document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', closeMobileMenu));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
-// 3. Reveal Animations on Scroll
-const revealElements = document.querySelectorAll('.reveal');
+// ─── Scroll Logic ───────────────────────────────────────────────────────────
+const heroHeight = () => document.getElementById('home')?.offsetHeight ?? window.innerHeight;
 
-const revealOnScroll = () => {
-    const triggerBottom = window.innerHeight * 0.85;
+function onScroll() {
+    const scrollY = window.scrollY;
+    const inHero  = scrollY < heroHeight() * 0.6;
 
-    revealElements.forEach((el) => {
-        const elTop = el.getBoundingClientRect().top;
+    // 1. Hero state — white links
+    navbar.classList.toggle('nav--hero', inHero);
 
-        if (elTop < triggerBottom) {
-            el.classList.add('active-reveal');
-            // Adding specific animation state if needed
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
+    // 2. Pill scrolled style
+    navPill.classList.toggle('scrolled', scrollY > 50);
+    navbar.classList.toggle('scrolled', scrollY > 50);
+
+    // 3. Active nav link — welcher Section-Anker ist sichtbar?
+    let activeId = navSectionIds[0];
+    navSectionIds.forEach(id => {
+        const el = id ? document.getElementById(id) : null;
+        if (el && scrollY >= el.offsetTop - window.innerHeight * 0.45) {
+            activeId = id;
         }
     });
-};
+    navLinks.forEach(a => {
+        a.classList.toggle('is-active', a.getAttribute('href') === `#${activeId}`);
+    });
 
-// CSS for reveal initial state (if not already in style.css)
-revealElements.forEach(el => {
+    // 4. Custom scrollbar
+    if (scrollThumb) {
+        const scrollH  = document.documentElement.scrollHeight;
+        const clientH  = document.documentElement.clientHeight;
+        const thumbH   = Math.max((clientH / scrollH) * clientH, 60);
+        const maxScroll = scrollH - clientH;
+        const pct       = maxScroll > 0 ? scrollY / maxScroll : 0;
+        scrollThumb.style.height = `${thumbH}px`;
+        scrollThumb.style.top    = `${pct * (clientH - thumbH)}px`;
+        scrollThumb.classList.add('active');
+        clearTimeout(scrollThumb._t);
+        scrollThumb._t = setTimeout(() => scrollThumb.classList.remove('active'), 600);
+    }
+
+    // 5. Reveal (opacity only)
+    const threshold = window.innerHeight * 0.88;
+    document.querySelectorAll('.reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < threshold) el.style.opacity = '1';
+    });
+}
+
+// Initial reveal state
+document.querySelectorAll('.reveal').forEach(el => {
     el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+    el.style.transition = 'opacity 0.5s ease';
 });
 
-window.addEventListener('scroll', revealOnScroll);
-revealOnScroll(); // Initial call
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll, { passive: true });
+onScroll();
 
-// 4. Custom Dynamic Scrollbar (Green & Interactive)
-const scrollThumb = document.querySelector(".scroll-thumb");
-let scrollTimeout;
-
-const updateScrollbar = () => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    const scrollTop = window.scrollY;
-    
-    // Calculate size and position
-    const thumbHeight = Math.max((clientHeight / scrollHeight) * clientHeight, 60);
-    scrollThumb.style.height = `${thumbHeight}px`;
-    
-    const maxScroll = scrollHeight - clientHeight;
-    const scrollPercent = scrollTop / maxScroll;
-    const thumbTop = scrollPercent * (clientHeight - thumbHeight);
-    scrollThumb.style.top = `${thumbTop}px`;
-    
-    // Scale on scroll
-    scrollThumb.classList.add("active");
-    
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-        scrollThumb.classList.remove("active");
-    }, 500);
-};
-
-window.addEventListener("scroll", updateScrollbar);
-window.addEventListener("resize", updateScrollbar);
-updateScrollbar();
-
-// 5. Smooth Scroll for Anchor Links
+// ─── Smooth Scroll ──────────────────────────────────────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (!target) return;
         e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetEl = document.querySelector(targetId);
-        
-        if (targetEl) {
-            window.scrollTo({
-                top: targetEl.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }
+        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
     });
 });
 
-// 6. Menu Tab Logic
-const tabBtns = document.querySelectorAll('.tab-btn');
-const menuGrids = document.querySelectorAll('.menu-grid');
-
-tabBtns.forEach(btn => {
+// ─── Menu Tabs ──────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        const target = btn.getAttribute('data-tab');
-        
-        // Remove active class from all buttons and grids
-        tabBtns.forEach(b => b.classList.remove('active'));
-        menuGrids.forEach(g => g.classList.remove('active'));
-        
-        // Add active class to current
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.menu-grid').forEach(g => g.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById(target).classList.add('active');
-        
-        // Re-trigger scroll reveal for the new grid content
-        revealOnScroll();
+        document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
     });
 });
-
-console.log("Melodia Gelateria - High-End Redesign Initialized");
