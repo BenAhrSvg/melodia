@@ -4,10 +4,13 @@ const hamburger   = document.getElementById('hamburger');
 const mobileMenu  = document.getElementById('mobile-menu');
 const mobileClose = document.getElementById('mobile-close');
 const scrollThumb = document.querySelector('.scroll-thumb');
+const heroBg      = document.querySelector('.hero-bg');
 
 // Nav links + their target section IDs
 const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
-const navSectionIds = navLinks.map(a => a.getAttribute('href')?.replace('#', ''));
+// Links mit data-no-active werden nie als aktiv markiert (z.B. Menü)
+const trackableLinks = navLinks.filter(a => !a.hasAttribute('data-no-active'));
+const navSectionIds = trackableLinks.map(a => a.getAttribute('href')?.replace('#', ''));
 
 // ─── Hamburger / Mobile Menu ────────────────────────────────────────────────
 function openMobileMenu() {
@@ -42,6 +45,11 @@ function onScroll() {
     // 1. Hero state — white links
     navbar.classList.toggle('nav--hero', inHero);
 
+    // 1b. Hero parallax — video scrollt langsamer als die Seite
+    if (heroBg) {
+        heroBg.style.transform = `translateY(${scrollY * 0.35}px)`;
+    }
+
     // 2. Pill scrolled style
     navPill.classList.toggle('scrolled', scrollY > 50);
     navbar.classList.toggle('scrolled', scrollY > 50);
@@ -55,6 +63,7 @@ function onScroll() {
         }
     });
     navLinks.forEach(a => {
+        if (a.hasAttribute('data-no-active')) { a.classList.remove('is-active'); return; }
         a.classList.toggle('is-active', a.getAttribute('href') === `#${activeId}`);
     });
 
@@ -98,6 +107,43 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
     });
 });
+
+// ─── Reservation Form ───────────────────────────────────────────────────────
+const reservationForm = document.getElementById('reservation-form');
+const formSuccess     = document.getElementById('form-success');
+
+if (reservationForm) {
+    // Mindestdatum = übermorgen (2 Tage im Voraus)
+    const dateInput = document.getElementById('res-date');
+    if (dateInput) {
+        const minDate = new Date();
+        minDate.setDate(minDate.getDate() + 2);
+        dateInput.min = minDate.toISOString().split('T')[0];
+    }
+
+    reservationForm.addEventListener('submit', e => {
+        e.preventDefault();
+        if (!reservationForm.checkValidity()) {
+            reservationForm.reportValidity();
+            return;
+        }
+        const btn = reservationForm.querySelector('.form-submit');
+        btn.disabled = true;
+        btn.textContent = 'Wird gesendet …';
+
+        // Hier eigene Backend-URL / mailto / Formspree eintragen
+        const data = new FormData(reservationForm);
+        const mailto = `mailto:info@melodia-koeln.de?subject=Reservierungsanfrage&body=${encodeURIComponent(
+            `Name: ${data.get('name')}\nE-Mail: ${data.get('email')}\nDatum: ${data.get('date')}\nPersonen: ${data.get('guests')}\nNachricht: ${data.get('message') || '–'}`
+        )}`;
+        window.location.href = mailto;
+
+        formSuccess.textContent = 'Vielen Dank! Ihre Anfrage wurde übermittelt.';
+        reservationForm.reset();
+        btn.disabled = false;
+        btn.textContent = 'Anfrage senden';
+    });
+}
 
 // ─── Menu Tabs ──────────────────────────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn => {

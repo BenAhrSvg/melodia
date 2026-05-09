@@ -25,7 +25,8 @@
         </a>
         <div id="nav-pill" class="nav-links-container glass">
             <ul class="nav-links">
-                <li><a href="#flavors">Sorten</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#flavors">Menü</a></li>
                 <li><a href="#events">Events</a></li>
                 <li><a href="#journal">Journal</a></li>
             </ul>
@@ -46,7 +47,8 @@
             </button>
         </div>
         <ul class="mobile-nav-links">
-            <li><a href="#flavors" class="mobile-nav-link">Sorten <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#home" class="mobile-nav-link">Home <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#flavors" class="mobile-nav-link">Menü <i class="fas fa-arrow-right"></i></a></li>
             <li><a href="#events" class="mobile-nav-link">Events <i class="fas fa-arrow-right"></i></a></li>
             <li><a href="#journal" class="mobile-nav-link">Journal <i class="fas fa-arrow-right"></i></a></li>
             <li><a href="#visit" class="mobile-nav-link">Besuchen <i class="fas fa-arrow-right"></i></a></li>
@@ -60,10 +62,12 @@
 
     <!-- Hero -->
     <header id="home" class="hero">
-        <video class="hero-video" autoplay muted loop playsinline poster="https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=1600">
-            <source src="https://videos.pexels.com/video-files/9058614/9058614-hd_1920_1080_25fps.mp4" type="video/mp4">
-        </video>
-        <div class="hero-overlay"></div>
+        <div class="hero-bg">
+            <video class="hero-video" autoplay muted loop playsinline poster="https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=1600">
+                <source src="https://videos.pexels.com/video-files/9058614/9058614-hd_1920_1080_25fps.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+        </div>
         <div class="hero-card reveal">
             <div class="italian-badge">
                 <span class="flag"></span>
@@ -441,10 +445,53 @@
                     </div>
                 </div>
                 <div class="map-placeholder reveal">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2512.871439223381!2d6.953503676835161!3d50.96222445091702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf25e4c6c0c5bf%3A0x6b4b4b4b4b4b4b4b!2sNeusser%20Str.%2016%2C%2050733%20K%C3%B6ln!5e0!3m2!1sde!2sde!4v1715094912345!5m2!1sde!2sde" 
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2512.871439223381!2d6.953503676835161!3d50.96222445091702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf25e4c6c0c5bf%3A0x6b4b4b4b4b4b4b4b!2sNeusser%20Str.%2016%2C%2050733%20K%C3%B6ln!5e0!3m2!1sde!2sde!4v1715094912345!5m2!1sde!2sde"
                         width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
+            </div>
+
+            <!-- Reservierungsanfrage Formular -->
+            <div class="reservation-block reveal">
+                <span class="section-eyebrow">prenota</span>
+                <h3>Tisch reservieren</h3>
+                <p>Bitte reservieren Sie mindestens <strong>2 Tage im Voraus</strong> – so können wir Ihren Besuch optimal vorbereiten.</p>
+                <form class="contact-form" id="reservation-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="res-name">Name</label>
+                            <input type="text" id="res-name" name="name" placeholder="Ihr Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="res-email">E-Mail</label>
+                            <input type="email" id="res-email" name="email" placeholder="ihre@email.de" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="res-date">Wunschdatum</label>
+                            <input type="date" id="res-date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="res-guests">Personen</label>
+                            <select id="res-guests" name="guests" required>
+                                <option value="" disabled selected>Anzahl wählen</option>
+                                <option value="1">1 Person</option>
+                                <option value="2">2 Personen</option>
+                                <option value="3">3 Personen</option>
+                                <option value="4">4 Personen</option>
+                                <option value="5">5 Personen</option>
+                                <option value="6+">6+ Personen</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="res-message">Nachricht <span style="opacity:.5; font-weight:400;">(optional)</span></label>
+                        <textarea id="res-message" name="message" rows="3" placeholder="Besondere Wünsche, Allergien …"></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Anfrage senden</button>
+                    <p class="form-success" id="form-success" aria-live="polite"></p>
+                </form>
             </div>
         </div>
     </section>
