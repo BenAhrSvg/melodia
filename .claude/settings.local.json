@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(ls \"C:\\\\Users\\\\Hagen\\\\Desktop\\\\Buiness\\\\Kunden\\\\melodia\\\\public\\\\animation\"\" | head -5 && ls \"C:UsersHagenDesktopBuinessKundenmelodiapublicanimation\"\")"
+    ]
+  }
+}

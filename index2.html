@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melodia Gelateria | Artisan Italian Ice Cream</title>
+    <meta name="description" content="High-end artisan Italian ice cream parlor in the heart of the city.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./src/style.css">
+
+    <style>
+        /* ── Reset für horizontales Layout ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: auto; }
+        body { overflow-x: hidden; background: #0d1a10; }
+
+        /* ── Scroll-Fortschrittsbalken ── */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: var(--color-primary-light);
+            z-index: 1000;
+            transition: width 0.04s linear;
+            pointer-events: none;
+        }
+
+        /* ── Rig: erzeugt den Scroll-Raum ── */
+        .scroll-rig { /* Höhe via JS */ }
+
+        /* ── Stage: klebt am Viewport ── */
+        .scroll-stage {
+            position: sticky; top: 0;
+            height: 100vh; overflow: hidden;
+        }
+
+        /* ── Canvas: Animations-Hintergrund ── */
+        .anim-canvas {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        /* Dunkel-Vignette über Canvas — Basis-Dunkelung + Vignette */
+        .canvas-overlay {
+            position: absolute; inset: 0;
+            background:
+                rgba(0,0,0,0.42),
+                linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 25%, transparent 75%, rgba(0,0,0,0.4) 100%);
+            z-index: 1; pointer-events: none;
+        }
+
+        /* ── Horizontaler Content-Track ── */
+        .content-track {
+            position: absolute; top: 0; left: 0;
+            height: 100%; display: flex;
+            will-change: transform; z-index: 2;
+        }
+
+        /* ── Panels ── */
+        .panel {
+            width: 100vw; height: 100vh;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+
+        .panel-inner {
+            width: 100%; max-width: 760px;
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        /* ── Panel: Hero — eigenes Seitengradient hinter Text ── */
+        .panel--hero::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 55%, transparent 100%);
+            z-index: 0; pointer-events: none;
+        }
+        .panel--hero .panel-inner {
+            max-width: 900px;
+            padding-left: clamp(3rem, 10vw, 9rem);
+            position: relative; z-index: 1;
+        }
+        .panel--hero .italian-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-pill);
+            padding: 0.4rem 1rem;
+            font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase;
+            color: rgba(255,255,255,0.85); font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .panel--hero .hero-sub {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.78rem; letter-spacing: 3px;
+            text-transform: uppercase; font-weight: 600;
+            margin-bottom: 0.6rem;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+        }
+        .panel--hero h1 {
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 700; color: #fff; line-height: 0.95;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 32px rgba(0,0,0,0.8), 0 1px 6px rgba(0,0,0,0.6);
+        }
+        .hero-cta-h {
+            display: inline-flex; align-items: center; gap: 0.75rem;
+            padding: 0.9rem 2.2rem;
+            background: var(--color-primary);
+            color: #fff; border-radius: var(--radius-pill);
+            font-family: 'Great Vibes', cursive; font-size: 1.6rem;
+            text-decoration: none; cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            border: none;
+        }
+        .hero-cta-h:hover { background: var(--color-primary-dark); transform: translateY(-2px); }
+        .hero-cta-h i { font-size: 0.85rem; font-family: 'Font Awesome 6 Free'; }
+
+        /* Scroll-Hinweis */
+        .scroll-hint {
+            position: absolute; bottom: 2.5rem; right: 3rem;
+            color: rgba(255,255,255,0.45); font-size: 0.65rem;
+            letter-spacing: 2px; text-transform: uppercase;
+            display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+        }
+        .scroll-hint-arrow {
+            width: 20px; height: 20px;
+            border-right: 1.5px solid rgba(255,255,255,0.4);
+            border-bottom: 1.5px solid rgba(255,255,255,0.4);
+            transform: rotate(-45deg);
+            animation: arrowPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.25; transform: rotate(-45deg) translate(0,0); }
+            50%       { opacity: 0.9;  transform: rotate(-45deg) translate(5px,5px); }
+        }
+
+        /* ── Panel: Manifesto ── */
+        .panel--manifesto .panel-inner {
+            background: rgba(13,61,34,0.80);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            padding: clamp(2.5rem, 5vw, 4rem) clamp(2rem, 6vw, 4.5rem);
+        }
+        .panel--manifesto .manifesto-script {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            color: rgba(255,255,255,0.85); display: block; margin-bottom: 1.5rem;
+        }
+        .panel--manifesto .manifesto-text {
+            color: rgba(255,255,255,0.85);
+            font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+            line-height: 1.75; margin-bottom: 2rem;
+        }
+        .panel--manifesto .manifesto-detail {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.68rem; letter-spacing: 2.5px; text-transform: uppercase;
+        }
+
+        /* ── Panel: Menü ── */
+        .panel--menu .panel-inner { max-width: 960px; }
+
+        /* Dunkle Glass-Backing für content-schwere Panels */
+        .panel--menu .panel-inner,
+        .panel--events .panel-inner,
+        .panel--journal .panel-inner,
+        .panel--visit .panel-inner {
+            background: rgba(4, 14, 7, 0.65);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: var(--radius-lg);
+            padding: clamp(1.5rem, 3vw, 2.25rem);
+        }
+
+        .panel-h2 {
+            color: #fff; font-size: clamp(1.6rem, 3vw, 2.5rem); margin-bottom: 1.25rem;
+            text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+        }
+        .panel .section-eyebrow {
+            color: var(--color-primary-light); opacity: 1;
+            text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+        }
+
+        .h-menu-tabs {
+            display: flex; gap: 0.5rem; flex-wrap: wrap;
+            margin-bottom: 1.25rem;
+        }
+        .h-tab-btn {
+            padding: 0.35rem 1.1rem; border-radius: var(--radius-pill);
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.25); color: rgba(255,255,255,0.82);
+            font-family: 'Montserrat', sans-serif; font-size: 0.72rem;
+            font-weight: 600; letter-spacing: 0.5px; cursor: pointer;
+            transition: all 0.18s;
+        }
+        .h-tab-btn.active, .h-tab-btn:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary); color: #fff;
+        }
+        .h-menu-grid-wrap > .h-menu-grid { display: none; }
+        .h-menu-grid-wrap > .h-menu-grid.active { display: grid; }
+        .h-menu-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+        .h-menu-item {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.1rem;
+            transition: background 0.18s;
+        }
+        .h-menu-item:hover { background: rgba(0,0,0,0.5); }
+        .h-menu-item h4 { font-size: 0.88rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+        .h-menu-item p  { font-size: 0.73rem; color: rgba(255,255,255,0.72); line-height: 1.45; margin: 0; }
+        .h-menu-price { display: block; margin-top: 0.6rem; font-size: 0.8rem; font-weight: 700; color: var(--color-primary-light); }
+
+        /* ── Panel: Events ── */
+        .panel--events .panel-inner { max-width: 860px; }
+        .h-events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.25rem; }
+        .h-event-card {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            padding: 1.5rem 1.25rem;
+        }
+        .h-event-card .event-day {
+            font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--color-primary-light); font-weight: 700;
+        }
+        .h-event-card h3 { color: #fff; font-size: 1.05rem; margin: 0.5rem 0 0.3rem; }
+        .h-event-card p  { color: rgba(255,255,255,0.8); font-size: 0.8rem; line-height: 1.55; }
+
+        /* ── Panel: Journal ── */
+        .panel--journal .panel-inner { max-width: 940px; }
+        .h-journal-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            height: 320px;
+        }
+        .h-journal-item {
+            border-radius: var(--radius-md); overflow: hidden;
+            position: relative; background: rgba(0,0,0,0.3);
+        }
+        .h-journal-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h-journal-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 0.9rem 1rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+        }
+        .h-journal-overlay .journal-tag {
+            font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--color-primary-light); font-weight: 700;
+        }
+        .h-journal-overlay h3 { color: #fff; font-size: 0.85rem; margin: 0.2rem 0 0; }
+        .h-journal-item.featured { grid-row: span 2; }
+
+        /* ── Panel: Quote ── */
+        .panel--quote .panel-inner {
+            background: rgba(13,61,34,0.82);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-lg); text-align: center;
+            padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem);
+        }
+        .panel--quote .quote-mark {
+            font-family: 'Great Vibes', cursive;
+            font-size: 7rem; line-height: 0.5;
+            color: var(--color-primary-light); display: block; margin-bottom: 1.5rem;
+        }
+        .panel--quote blockquote {
+            font-size: clamp(1.1rem, 2.2vw, 1.55rem);
+            color: rgba(255,255,255,0.9); font-style: italic; line-height: 1.65;
+            border: none; padding: 0; margin: 0 0 1.75rem;
+        }
+        .panel--quote .quote-source {
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            color: rgba(255,255,255,0.45); font-size: 0.72rem; letter-spacing: 1px;
+        }
+
+        /* ── Panel: Visit ── */
+        .panel--visit .panel-inner { max-width: 800px; }
+        .h-visit-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 1rem; margin-top: 1.25rem; }
+        .h-visit-col { display: flex; flex-direction: column; gap: 0.75rem; }
+        .h-visit-card {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md); padding: 1.25rem 1.5rem; flex: 1;
+        }
+        .h-visit-card h4 {
+            font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--color-primary-light); font-weight: 700; margin-bottom: 0.5rem;
+        }
+        .h-visit-card p { color: rgba(255,255,255,0.88); font-size: 0.88rem; line-height: 1.65; }
+        .h-map {
+            border-radius: var(--radius-md); overflow: hidden;
+            height: 100%; min-height: 220px;
+        }
+        .h-map iframe { width: 100%; height: 100%; border: 0; display: block; }
+        .h-social {
+            display: flex; gap: 1rem; margin-top: 1.25rem;
+        }
+        .h-social a {
+            color: rgba(255,255,255,0.5); font-size: 1.1rem;
+            transition: color 0.18s;
+        }
+        .h-social a:hover { color: var(--color-primary-light); }
+
+        /* ── Panel-Dots (rechts) ── */
+        .panel-dots {
+            position: fixed; right: 1.75rem; top: 50%;
+            transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 0.6rem;
+            z-index: 200;
+        }
+        .panel-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            border: none; cursor: pointer; padding: 0;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .panel-dot.active { background: var(--color-primary-light); transform: scale(1.6); }
+
+        /* ── Footer (nach Rig, normaler Flow) ── */
+        .site-footer { background: #0a2414; }
+
+        /* ── Mobile-Fallback ── */
+        @media (max-width: 900px) {
+            .scroll-rig { height: auto !important; }
+            .scroll-stage { position: relative; height: auto; overflow: visible; }
+            .anim-canvas, .canvas-overlay { display: none; }
+            body { background: #0d1a10; }
+            .content-track {
+                flex-direction: column; width: 100% !important;
+                transform: none !important; position: relative;
+            }
+            .panel {
+                width: 100%; height: auto; min-height: 100svh;
+                padding: 8rem 1.5rem 3rem; align-items: flex-start;
+            }
+            .panel-inner { max-width: 100% !important; }
+            .panel--hero .panel-inner { padding-left: 1.5rem; }
+            .h-menu-grid,
+            .h-events-grid { grid-template-columns: 1fr 1fr; }
+            .h-journal-grid {
+                grid-template-columns: 1fr; grid-template-rows: auto;
+                height: auto;
+            }
+            .h-journal-item.featured { grid-row: auto; height: 240px; }
+            .h-journal-item { height: 180px; }
+            .h-visit-grid { grid-template-columns: 1fr; }
+            .panel-dots, .scroll-hint { display: none; }
+            .scroll-progress { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .h-menu-grid, .h-events-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="italian-line"></div>
+
+    <!-- Scroll-Fortschrittsbalken -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="nav--hero">
+        <a href="#" class="nav-logo" id="logoLink">
+            <img src="./public/logo.svg" alt="Gelateria Melodia Logo" class="nav-logo-img" style="height:56px;width:auto;">
+        </a>
+        <div id="nav-pill" class="nav-links-container glass scrolled">
+            <ul class="nav-links">
+                <li><a href="#" data-panel="2" class="panel-nav-link">Sorten</a></li>
+                <li><a href="#" data-panel="3" class="panel-nav-link">Events</a></li>
+                <li><a href="#" data-panel="4" class="panel-nav-link">Journal</a></li>
+            </ul>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <div class="mobile-menu-top">
+            <span class="logo-font mobile-menu-logo">Melodia</span>
+            <button class="mobile-menu-close" id="mobile-close" aria-label="Menü schließen">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="#" class="mobile-nav-link panel-nav-link" data-panel="2">Sorten <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#" class="mobile-nav-link panel-nav-link" data-panel="3">Events <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#" class="mobile-nav-link panel-nav-link" data-panel="4">Journal <i class="fas fa-arrow-right"></i></a></li>
+            <li><a href="#" class="mobile-nav-link panel-nav-link" data-panel="6">Besuchen <i class="fas fa-arrow-right"></i></a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            Neusser Str. 16 · 50733 Köln<br>Täglich 10:00 – 21:00 Uhr
+        </div>
+    </div>
+
+    <!-- Panel-Dots Navigation -->
+    <nav class="panel-dots" id="panelDots" aria-label="Abschnitte"></nav>
+
+    <!-- ── Horizontales Scroll-Rig ── -->
+    <div class="scroll-rig" id="scrollRig">
+        <div class="scroll-stage">
+
+            <!-- Animations-Canvas -->
+            <canvas class="anim-canvas" id="animCanvas"></canvas>
+            <div class="canvas-overlay"></div>
+
+            <!-- Horizontaler Content-Track -->
+            <div class="content-track" id="contentTrack">
+
+                <!-- ── Panel 0: Hero ── -->
+                <section class="panel panel--hero">
+                    <div class="panel-inner">
+                        <div class="italian-badge">
+                            <i class="fas fa-star" style="font-size:0.6rem; color:var(--color-primary-light);"></i>
+                            Tradizione Italiana dal 2024
+                        </div>
+                        <p class="hero-sub">Handmade in Cologne</p>
+                        <h1>Echte<br>Eiskunst</h1>
+                        <button class="hero-cta-h" data-panel="2">
+                            Entdecken <i class="fas fa-arrow-right" style="font-size:0.8rem;"></i>
+                        </button>
+                    </div>
+                    <div class="scroll-hint">
+                        <div class="scroll-hint-arrow"></div>
+                        <span>Scrollen</span>
+                    </div>
+                </section>
+
+                <!-- ── Panel 1: Manifesto ── -->
+                <section class="panel panel--manifesto">
+                    <div class="panel-inner">
+                        <span class="manifesto-script">fatto a mano</span>
+                        <p class="manifesto-text">
+                            Seit dem ersten Löffel wissen wir — echtes Gelato braucht Zeit, die richtigen Zutaten
+                            und Menschen, denen Qualität keine Kompromisse bedeutet.
+                        </p>
+                        <div class="manifesto-detail">Handgemacht · Köln · Seit 2024</div>
+                    </div>
+                </section>
+
+                <!-- ── Panel 2: Menü ── -->
+                <section class="panel panel--menu">
+                    <div class="panel-inner">
+                        <span class="section-eyebrow">il menu</span>
+                        <h2 class="panel-h2">Unsere Eiskarte</h2>
+                        <div class="h-menu-tabs" id="hMenuTabs">
+                            <button class="h-tab-btn active" data-htab="h-becher">Eisbecher</button>
+                            <button class="h-tab-btn" data-htab="h-spezial">Spezialitäten</button>
+                            <button class="h-tab-btn" data-htab="h-waffeln">Waffeln & Joghurt</button>
+                            <button class="h-tab-btn" data-htab="h-getraenke">Shakes & Getränke</button>
+                        </div>
+                        <div class="h-menu-grid-wrap">
+                            <div class="h-menu-grid active" id="h-becher">
+                                <div class="h-menu-item"><h4>Erdbeer-Becher</h4><p>Frische Erdbeeren, Vanille- & Erdbeereis, Fruchtsauce & Sahne.</p><span class="h-menu-price">8,00 €</span></div>
+                                <div class="h-menu-item"><h4>Pistazien-Becher</h4><p>Original Bronte-Pistazie, geröstete Nüsse & cremiges Milcheis.</p><span class="h-menu-price">8,00 €</span></div>
+                                <div class="h-menu-item"><h4>Rocher-Traum</h4><p>Zartbitter-Schokolade, Rocher-Kugeln & belgische Schokosauce.</p><span class="h-menu-price">8,00 €</span></div>
+                                <div class="h-menu-item"><h4>Amarena-Traum</h4><p>Cremiges Milcheis mit saftigen Amarena-Kirschen.</p><span class="h-menu-price">8,00 €</span></div>
+                                <div class="h-menu-item"><h4>Bananen-Split</h4><p>Der Klassiker mit Banane, Vanilleeis & Schokosauce.</p><span class="h-menu-price">8,50 €</span></div>
+                                <div class="h-menu-item"><h4>Tiramisù-Becher</h4><p>Mascarpone, Espresso-Eis & Löffelbiskuit-Krümel.</p><span class="h-menu-price">8,50 €</span></div>
+                            </div>
+                            <div class="h-menu-grid" id="h-spezial">
+                                <div class="h-menu-item"><h4>Spaghetti-Eis Classic</h4><p>Vanilleeis, hausgemachte Erdbeersauce & weiße Schoko-Raspeln.</p><span class="h-menu-price">8,00 €</span></div>
+                                <div class="h-menu-item"><h4>Kinderbecher Smarties</h4><p>Bunter Eisspaß mit vielen Smarties & Sahne.</p><span class="h-menu-price">4,50 €</span></div>
+                                <div class="h-menu-item"><h4>Spaghetti Carbonara</h4><p>Mit Haselnuss-Stückchen, Eierlikör & geriebenen Nüssen.</p><span class="h-menu-price">8,50 €</span></div>
+                                <div class="h-menu-item"><h4>Original Eiskaffee</h4><p>Gekühlter Kaffee mit Vanilleeis & Sahnehaube.</p><span class="h-menu-price">6,50 €</span></div>
+                                <div class="h-menu-item"><h4>Affogato al Cioccolato</h4><p>Doppelter Espresso über Schokoladeneis. Intensiv & edel.</p><span class="h-menu-price">5,50 €</span></div>
+                                <div class="h-menu-item"><h4>Coupe Denmark</h4><p>Vanilleeis mit heißer Schokosauce & Sahnehaube.</p><span class="h-menu-price">7,00 €</span></div>
+                            </div>
+                            <div class="h-menu-grid" id="h-waffeln">
+                                <div class="h-menu-item"><h4>Frozen Joghurt Groß</h4><p>Frisch gezapft mit Früchten, Smarties oder Oreo-Topping.</p><span class="h-menu-price">5,80 €</span></div>
+                                <div class="h-menu-item"><h4>Melodi Edel-Waffel</h4><p>Mit Schokosauce, frischen Beeren & einer Kugel Eis nach Wahl.</p><span class="h-menu-price">6,50 €</span></div>
+                                <div class="h-menu-item"><h4>Frische Crepes</h4><p>Mit Nutella, Banane oder Zimt & Zucker.</p><span class="h-menu-price">4,50 €</span></div>
+                                <div class="h-menu-item"><h4>Frozen Joghurt Mini</h4><p>Der kleine Genuss für Zwischendurch.</p><span class="h-menu-price">3,80 €</span></div>
+                                <div class="h-menu-item"><h4>Bubble-Waffle</h4><p>Knusprige Hong-Kong-Waffel mit Eis nach Wahl & Soße.</p><span class="h-menu-price">6,00 €</span></div>
+                                <div class="h-menu-item"><h4>Joghurt-Beere Combo</h4><p>Frozen Joghurt mit gemischten Waldbeeren & Honig.</p><span class="h-menu-price">5,50 €</span></div>
+                            </div>
+                            <div class="h-menu-grid" id="h-getraenke">
+                                <div class="h-menu-item"><h4>Milchshake Classico</h4><p>Cremiger Shake — Erdbeere, Schokolade oder Vanille. Mit Sahne.</p><span class="h-menu-price">6,50 €</span></div>
+                                <div class="h-menu-item"><h4>Pistazien-Shake</h4><p>Original Bronte-Pistazie, cremig aufgeshaked mit Mandelmilch.</p><span class="h-menu-price">7,00 €</span></div>
+                                <div class="h-menu-item"><h4>Freddo Espresso</h4><p>Eisgekühlter Espresso auf Eiswürfeln. Intensiv & erfrischend.</p><span class="h-menu-price">4,50 €</span></div>
+                                <div class="h-menu-item"><h4>Mango Alphonso Smoothie</h4><p>Frischer Mango Alphonso, Maracuja & Sorbetto. Vegan.</p><span class="h-menu-price">6,00 €</span></div>
+                                <div class="h-menu-item"><h4>Limonata Italiana</h4><p>Hausgemachte Limonade mit sizilianischer Zitrone & Minze.</p><span class="h-menu-price">4,00 €</span></div>
+                                <div class="h-menu-item"><h4>Cocco Fresco</h4><p>Kokosnussmilch mit Ananas & Limette. Vegan.</p><span class="h-menu-price">5,50 €</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Panel 3: Events ── -->
+                <section class="panel panel--events">
+                    <div class="panel-inner">
+                        <span class="section-eyebrow">gli eventi</span>
+                        <h2 class="panel-h2">Events & Specials</h2>
+                        <div class="h-events-grid">
+                            <div class="h-event-card">
+                                <span class="event-day">Dienstag</span>
+                                <h3>Happy Hour</h3>
+                                <p>Zwei Kugeln zum Preis von einer. Den ganzen Tag lang.</p>
+                            </div>
+                            <div class="h-event-card">
+                                <span class="event-day">Donnerstag</span>
+                                <h3>Vegan Day</h3>
+                                <p>Alle Sorbets und veganen Kreationen 20% reduziert.</p>
+                            </div>
+                            <div class="h-event-card">
+                                <span class="event-day">Wochenende</span>
+                                <h3>Special Batch</h3>
+                                <p>Jedes Wochenende eine neue, limitierte Kreation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Panel 4: Journal ── -->
+                <section class="panel panel--journal">
+                    <div class="panel-inner">
+                        <span class="section-eyebrow">il giornale</span>
+                        <h2 class="panel-h2">Melodia Journal</h2>
+                        <div class="h-journal-grid">
+                            <div class="h-journal-item featured">
+                                <img src="./public/melodia_journal_story_1_1778174106531.png" alt="Pistazien aus Bronte" loading="lazy">
+                                <div class="h-journal-overlay">
+                                    <span class="journal-tag">Zutaten</span>
+                                    <h3>Das Geheimnis der Pistazie</h3>
+                                </div>
+                            </div>
+                            <div class="h-journal-item">
+                                <img src="https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Handwerk" loading="lazy">
+                                <div class="h-journal-overlay">
+                                    <span class="journal-tag">Handwerk</span>
+                                    <h3>Handwerk vs. Industrie</h3>
+                                </div>
+                            </div>
+                            <div class="h-journal-item">
+                                <img src="https://images.pexels.com/photos/1132558/pexels-photo-1132558.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Saisonal" loading="lazy">
+                                <div class="h-journal-overlay">
+                                    <span class="journal-tag">Saison</span>
+                                    <h3>Saisonal genießen</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Panel 5: Quote ── -->
+                <section class="panel panel--quote">
+                    <div class="panel-inner">
+                        <div class="quote-mark">"</div>
+                        <blockquote>Das beste Gelato außerhalb von Italien. Die Textur ist einfach unglaublich.</blockquote>
+                        <div class="quote-source">
+                            <i class="fab fa-tripadvisor"></i>
+                            <span>TripAdvisor · 5 Sterne</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── Panel 6: Visit ── -->
+                <section class="panel panel--visit">
+                    <div class="panel-inner">
+                        <span class="section-eyebrow">dove siamo</span>
+                        <h2 class="panel-h2">Besuchen Sie uns</h2>
+                        <div class="h-visit-grid">
+                            <div class="h-visit-col">
+                                <div class="h-visit-card">
+                                    <h4>Adresse</h4>
+                                    <p>Neusser Str. 16<br>50733 Köln</p>
+                                </div>
+                                <div class="h-visit-card">
+                                    <h4>Öffnungszeiten</h4>
+                                    <p>Täglich<br>10:00 – 21:00 Uhr</p>
+                                </div>
+                                <div class="h-social">
+                                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                </div>
+                            </div>
+                            <div class="h-map">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2512.871439223381!2d6.953503676835161!3d50.96222445091702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf25e4c6c0c5bf%3A0x6b4b4b4b4b4b4b4b!2sNeusser%20Str.%2016%2C%2050733%20K%C3%B6ln!5e0!3m2!1sde!2sde!4v1715094912345!5m2!1sde!2sde"
+                                    allowfullscreen loading="lazy" title="Karte Melodia Gelateria">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div><!-- /content-track -->
+        </div><!-- /scroll-stage -->
+    </div><!-- /scroll-rig -->
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <a href="#" class="footer-logo logo-font" id="footerLogoLink">Melodia</a>
+            <div class="footer-center">
+                <p>Neusser Str. 16 · 50733 Köln</p>
+                <p>Täglich 10:00 – 21:00 Uhr</p>
+            </div>
+            <div class="footer-right">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <span>© 2026 Melodia</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (() => {
+        'use strict';
+
+        // ── Konstanten ──────────────────────────────────────────────────────
+        const TOTAL_FRAMES = 240;
+        const PANELS = 7;
+        const PANEL_LABELS = ['Home', 'Manifesto', 'Sorten', 'Events', 'Journal', 'Zitat', 'Besuchen'];
+
+        // ── Elemente ─────────────────────────────────────────────────────────
+        const canvas      = document.getElementById('animCanvas');
+        const ctx         = canvas.getContext('2d');
+        const rig         = document.getElementById('scrollRig');
+        const track       = document.getElementById('contentTrack');
+        const progressBar = document.getElementById('scrollProgress');
+        const dotsNav     = document.getElementById('panelDots');
+        const hamburger   = document.getElementById('hamburger');
+        const mobileMenu  = document.getElementById('mobile-menu');
+        const mobileClose = document.getElementById('mobile-close');
+
+        // ── Hamburger ────────────────────────────────────────────────────────
+        function openMenu()  { mobileMenu.classList.add('is-open'); hamburger.classList.add('is-open'); mobileMenu.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+        function closeMenu() { mobileMenu.classList.remove('is-open'); hamburger.classList.remove('is-open'); mobileMenu.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+        hamburger.addEventListener('click', () => mobileMenu.classList.contains('is-open') ? closeMenu() : openMenu());
+        mobileClose.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+        // ── Canvas: Größe ────────────────────────────────────────────────────
+        function resizeCanvas() {
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+
+        // ── Rig-Höhe = Scroll-Raum ───────────────────────────────────────────
+        function setRigHeight() {
+            rig.style.height = `${PANELS * window.innerHeight}px`;
+        }
+        setRigHeight();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            setRigHeight();
+            renderFrame(currentFrame);
+            onHScroll();
+        }, { passive: true });
+
+        // ── Frames preloaden ─────────────────────────────────────────────────
+        const frames = new Array(TOTAL_FRAMES);
+
+        // Erste 10 Frames sofort laden (Hero sichtbar)
+        for (let i = 0; i < TOTAL_FRAMES; i++) {
+            const img = new Image();
+            const num = String(i + 1).padStart(3, '0');
+            img.src = `./public/animation/ezgif-frame-${num}.jpg`;
+            frames[i] = img;
+        }
+
+        // ── Frame auf Canvas zeichnen (Cover-Fit) ────────────────────────────
+        let currentFrame = 0;
+
+        function renderFrame(idx) {
+            const img = frames[idx];
+            if (!img || !img.complete || !img.naturalWidth) return;
+            const cw = canvas.width, ch = canvas.height;
+            const iw = img.naturalWidth, ih = img.naturalHeight;
+            const scale = Math.max(cw / iw, ch / ih);
+            const dw = iw * scale, dh = ih * scale;
+            ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+        }
+
+        // Ersten Frame rendern sobald geladen
+        frames[0].addEventListener('load', () => renderFrame(0));
+        if (frames[0].complete) renderFrame(0);
+
+        // ── Panel-Dots erstellen ─────────────────────────────────────────────
+        PANEL_LABELS.forEach((label, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'panel-dot';
+            btn.setAttribute('aria-label', label);
+            btn.title = label;
+            btn.addEventListener('click', () => scrollToPanel(i));
+            dotsNav.appendChild(btn);
+        });
+        const dots = Array.from(dotsNav.querySelectorAll('.panel-dot'));
+
+        // ── Zu Panel scrollen ────────────────────────────────────────────────
+        function scrollToPanel(panelIdx) {
+            const maxScroll = rig.offsetHeight - window.innerHeight;
+            const target    = (panelIdx / (PANELS - 1)) * maxScroll;
+            window.scrollTo({ top: target, behavior: 'smooth' });
+            closeMenu();
+        }
+
+        // ── Panel-Links (Nav + Mobile) ───────────────────────────────────────
+        document.querySelectorAll('[data-panel]').forEach(el => {
+            el.addEventListener('click', e => {
+                e.preventDefault();
+                scrollToPanel(parseInt(el.dataset.panel, 10));
+            });
+        });
+
+        // Logo → zurück zu Panel 0
+        document.getElementById('logoLink').addEventListener('click', e => {
+            e.preventDefault(); scrollToPanel(0);
+        });
+        document.getElementById('footerLogoLink').addEventListener('click', e => {
+            e.preventDefault(); scrollToPanel(0);
+        });
+
+        // ── Haupt-Scroll-Handler ─────────────────────────────────────────────
+        let rafId = null;
+
+        function onHScroll() {
+            const scrollY   = window.scrollY;
+            const maxScroll = Math.max(1, rig.offsetHeight - window.innerHeight);
+            const pct       = Math.max(0, Math.min(1, scrollY / maxScroll));
+
+            // Content horizontal verschieben
+            const trackW = track.offsetWidth - window.innerWidth;
+            track.style.transform = `translateX(${-pct * trackW}px)`;
+
+            // Fortschrittsbalken
+            progressBar.style.width = `${pct * 100}%`;
+
+            // Animationsframe berechnen & rendern
+            const frameIdx = Math.min(TOTAL_FRAMES - 1, Math.round(pct * (TOTAL_FRAMES - 1)));
+            if (frameIdx !== currentFrame) {
+                currentFrame = frameIdx;
+                renderFrame(currentFrame);
+            }
+
+            // Aktiver Dot
+            const activePanel = Math.round(pct * (PANELS - 1));
+            dots.forEach((d, i) => d.classList.toggle('active', i === activePanel));
+        }
+
+        window.addEventListener('scroll', () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(onHScroll);
+        }, { passive: true });
+
+        // Initialer Aufruf
+        onHScroll();
+
+        // ── Menü-Tabs ────────────────────────────────────────────────────────
+        document.querySelectorAll('.h-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.h-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.h-menu-grid').forEach(g => g.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.htab).classList.add('active');
+            });
+        });
+
+    })();
+    </script>
+</body>
+</html>
